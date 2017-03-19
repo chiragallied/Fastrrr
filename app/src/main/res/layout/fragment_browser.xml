@@ -3,22 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.fastrrr.Fragment.BrowserFragment">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ebebeb">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#ebebeb"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/_65sdp"
             android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp">
             <android.support.v7.widget.CardView
                 android:id="@+id/cardViewBrowser"
                 android:layout_gravity="center"
@@ -29,9 +32,9 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/imageViewBrowserIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_local_movies_black_24dp"/>
                     <TextView
@@ -47,19 +50,19 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_settings_black_24dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="@dimen/_5sdp"
                         android:layout_alignParentRight="true"/>
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/_65sdp"
             android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingLeft="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp">
             <android.support.v7.widget.CardView
                 android:id="@+id/cardViewBookmarks"
                 android:layout_gravity="center"
@@ -71,9 +74,9 @@
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/imageViewWidgetIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_photo_library_black_24dp"/>
                     <TextView
@@ -89,50 +92,11 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_settings_black_24dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="@dimen/_5sdp"
                         android:layout_alignParentRight="true"/>
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
         </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
-
-        </RelativeLayout>
     </LinearLayout>
+    </ScrollView>
 </FrameLayout>

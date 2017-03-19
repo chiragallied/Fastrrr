@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,14 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.fastrrr.Activity.MainActivity"
             android:label="@string/app_name"
+            android:name=".Activity.SplashScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.fastrrr.Activity.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name="com.fastrrr.Activity.AboutUsActivity"
@@ -27,7 +31,9 @@
         <activity
             android:name="com.fastrrr.Activity.PrivacyPolicyActivity"
             android:label="@string/activity_title_privacy_policy" />
+
         <service android:name=".Services.FloatingWindow"></service>
+        <service android:name=".Services.FloatingDialer"></service>
     </application>
 
 </manifest>

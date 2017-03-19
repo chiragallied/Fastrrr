@@ -7,7 +7,7 @@
     <string name="closeDrawer">close_drawer</string>
 
     <!-- Navigation Drawer menu labels -->
-    <string name="nav_apps">Apps</string>
+    <string name="nav_apps">Home</string>
     <string name="nav_my_apps">My Apps</string>
     <string name="nav_settings">Settings</string>
 
@@ -18,6 +18,7 @@
 
     <string name="nav_feedback">Feedback</string>
     <string name="nav_rate_us">Rate Us</string>
+    <string name="nav_about_us">About Us</string>
     <string name="nav_whats_new">What\'s new</string>
     <string name="nav_show_tutorial">Show tutorial</string>
 
