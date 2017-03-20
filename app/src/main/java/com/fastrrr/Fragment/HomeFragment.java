@@ -55,6 +55,27 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+        cardViewTools.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToolsFragment toolsFragment=new ToolsFragment();
+                String backStateName =  toolsFragment.getClass().getName();
+                String fragmentTag = backStateName;
+
+                FragmentManager manager = getFragmentManager();
+                boolean fragmentPopped = manager.popBackStackImmediate (backStateName, 0);
+
+                if (!fragmentPopped && manager.findFragmentByTag(fragmentTag) == null)
+                {
+                    //fragment not in back stack, create it.
+                    FragmentTransaction ft = manager.beginTransaction();
+                    ft.replace(R.id.frame, toolsFragment, fragmentTag);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.addToBackStack(backStateName);
+                    ft.commit();
+                }
+            }
+        });
     }
     public HomeFragment() {
         // Required empty public constructor
