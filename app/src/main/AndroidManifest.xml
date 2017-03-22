@@ -36,6 +36,7 @@
         <service android:name=".Services.FloatingDialer"></service>
         <service android:name=".Services.FloatingStopWatch"></service>
         <service android:name=".Services.FloatingCalculator"></service>
+        <service android:name=".Services.FloatingBookmark"></service>
     </application>
 
 </manifest>

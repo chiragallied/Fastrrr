@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.fastrrr.Activity.MainActivity;
 import com.fastrrr.R;
+import com.fastrrr.Services.FloatingBookmark;
 import com.fastrrr.Services.FloatingDialer;
 import com.fastrrr.Services.FloatingWindow;
 
@@ -55,7 +56,7 @@ public class BrowserFragment extends Fragment {
         cardViewBookmarks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().startService(new Intent(getActivity(),FloatingDialer.class));
+                getActivity().startService(new Intent(getActivity(),FloatingBookmark.class));
             }
         });
     }

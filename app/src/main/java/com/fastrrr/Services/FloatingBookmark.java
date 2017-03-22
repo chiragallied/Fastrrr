@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,6 +14,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 
 import com.fastrrr.R;
@@ -20,7 +22,7 @@ import com.fastrrr.R;
 public class FloatingBookmark extends Service {
 
     WindowManager wm;
-    ImageView buttonClose;
+    ImageView buttonClose,buttonMenu;
     ProgressBar pbar;
 
     @Override
@@ -43,7 +45,7 @@ public class FloatingBookmark extends Service {
                 PixelFormat.TRANSLUCENT);
         parameters.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View myView = inflater.inflate(R.layout.service_browser, null);
+        final View myView = inflater.inflate(R.layout.service_bookmark, null);
         myView.setOnTouchListener(new View.OnTouchListener() {
             WindowManager.LayoutParams updatedParameters = parameters;
             double x;
@@ -77,7 +79,7 @@ public class FloatingBookmark extends Service {
         });
 
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
-
+        buttonMenu= (ImageView) myView.findViewById(R.id.buttonMenu);
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,35 +88,27 @@ public class FloatingBookmark extends Service {
                 //System.exit(0);
             }
         });
+        buttonMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(getApplicationContext(), buttonMenu);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater()
+                        .inflate(R.menu.popup_menu, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        return true;
+                    }
+                });
+
+                popup.show(); //showing popup menu
+            }
+        });
 
         wm.addView(myView, parameters);
-    }
-    public class WebViewClient extends android.webkit.WebViewClient
-    {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
-            // TODO Auto-generated method stub
-            super.onPageStarted(view, url, favicon);
-            pbar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-            // TODO Auto-generated method stub
-            view.loadUrl(url);
-            return true;
-        }
-        @Override
-        public void onPageFinished(WebView view, String url) {
-
-            // TODO Auto-generated method stub
-
-            super.onPageFinished(view, url);
-            pbar.setVisibility(View.GONE);
-        }
-
     }
     @Override
     public void onDestroy() {
