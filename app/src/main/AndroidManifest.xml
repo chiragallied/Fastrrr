@@ -37,6 +37,14 @@
         <service android:name=".Services.FloatingStopWatch"></service>
         <service android:name=".Services.FloatingCalculator"></service>
         <service android:name=".Services.FloatingBookmark"></service>
+        <service android:name=".Services.FloatingAppFacebook"></service>
+        <service android:name=".Services.FloatingAppTwitter"></service>
+        <service android:name=".Services.FloatingAppInsta"></service>
+        <service android:name=".Services.FloatingAppForbes"></service>
+        <service android:name=".Services.FloatingAppGmail"></service>
+        <service android:name=".Services.FloatingAppWikipedia"></service>
+        <service android:name=".Services.FloatingAppTranslate"></service>
+        <service android:name=".Services.FloatingAppYoutube"></service>
     </application>
 
 </manifest>
