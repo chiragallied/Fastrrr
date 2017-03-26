@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,7 +37,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_local_movies_black_24dp"/>
+                        app:srcCompat="@drawable/ic_calculator"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewCalculatorIcon"
                         android:layout_width="wrap_content"
@@ -77,7 +78,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_photo_library_black_24dp"/>
+                        app:srcCompat="@drawable/ic_videoplayer"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewVideoIcon"
                         android:layout_width="wrap_content"
@@ -118,7 +119,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_photo_library_black_24dp"/>
+                        app:srcCompat="@drawable/ic_musicplaye"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewMusicIcon"
                         android:layout_width="wrap_content"
@@ -159,7 +160,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_photo_library_black_24dp"/>
+                        app:srcCompat="@drawable/ic_gallery"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewGalleryIcon"
                         android:layout_width="wrap_content"
@@ -200,7 +201,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_photo_library_black_24dp"/>
+                        app:srcCompat="@drawable/ic_dialer"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewDialerIcon"
                         android:layout_width="wrap_content"
@@ -241,7 +242,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_photo_library_black_24dp"/>
+                        app:srcCompat="@drawable/ic_contacts"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewContactsIcon"
                         android:layout_width="wrap_content"
@@ -282,7 +283,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_photo_library_black_24dp"/>
+                        app:srcCompat="@drawable/ic_notes"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewNotesIcon"
                         android:layout_width="wrap_content"
@@ -323,7 +324,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_photo_library_black_24dp"/>
+                        app:srcCompat="@drawable/ic_timer"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewTimerIcon"
                         android:layout_width="wrap_content"
@@ -364,7 +365,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_photo_library_black_24dp"/>
+                        app:srcCompat="@drawable/ic_stopwatch"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewStopwatchIcon"
                         android:layout_width="wrap_content"
@@ -487,7 +488,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/ic_photo_library_black_24dp"/>
+                        app:srcCompat="@drawable/ic_camera"/>
                     <TextView
                         android:layout_toRightOf="@+id/imageViewCameraIcon"
                         android:layout_width="wrap_content"

@@ -4,11 +4,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_apps"
-            android:icon="@drawable/ic_home_black_24dp"
+            android:icon="@drawable/ic_home"
             android:title="@string/nav_apps" />
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_settings_black_24dp"
+            android:icon="@drawable/ic_settings"
             android:title="@string/nav_settings" />
     </group>
 
@@ -17,15 +17,15 @@
             <item
                 android:id="@+id/nav_facebook"
                 android:title="@string/nav_facebook"
-                android:icon="@drawable/ic_photo_library_black_24dp"/>
+                android:icon="@drawable/ic_facebook"/>
             <item
                 android:id="@+id/nav_twitter"
                 android:title="@string/nav_twitter"
-                android:icon="@drawable/ic_photo_library_black_24dp"/>
+                android:icon="@drawable/ic_twitter"/>
             <item
                 android:id="@+id/nav_google_plus"
                 android:title="@string/nav_google_plus"
-                android:icon="@drawable/ic_photo_library_black_24dp"/>
+                android:icon="@drawable/ic_google_plus"/>
         </menu>
     </item>
 
@@ -34,23 +34,23 @@
             <item
                 android:id="@+id/nav_feedback"
                 android:title="@string/nav_feedback"
-                android:icon="@drawable/ic_photo_library_black_24dp"/>
+                android:icon="@drawable/ic_feedback"/>
             <item
                 android:id="@+id/nav_rate_us"
                 android:title="@string/nav_rate_us"
-                android:icon="@drawable/ic_photo_library_black_24dp"/>
+                android:icon="@drawable/ic_rateus"/>
             <item
                 android:id="@+id/nav_about_us"
                 android:title="@string/nav_about_us"
-                android:icon="@drawable/ic_photo_library_black_24dp"/>
+                android:icon="@drawable/ic_aboutus"/>
             <item
                 android:id="@+id/nav_whats_new"
                 android:title="@string/nav_whats_new"
-                android:icon="@drawable/ic_photo_library_black_24dp"/>
+                android:icon="@drawable/ic_whatsnew"/>
             <item
                 android:id="@+id/nav_show_tutorial"
                 android:title="@string/nav_show_tutorial"
-                android:icon="@drawable/ic_photo_library_black_24dp"/>
+                android:icon="@drawable/ic_showtutorial"/>
         </menu>
     </item>
 

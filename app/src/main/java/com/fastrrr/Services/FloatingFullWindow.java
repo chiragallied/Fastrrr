@@ -11,13 +11,17 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
 import com.fastrrr.R;
 
-public class FloatingAppInsta extends Service {
+public class FloatingFullWindow extends Service {
 
     WindowManager wm;
+
     WebView web1;
     ImageView buttonClose;
     ProgressBar pbar;
@@ -35,14 +39,14 @@ public class FloatingAppInsta extends Service {
 
         wm = (WindowManager) getSystemService(WINDOW_SERVICE);
         final WindowManager.LayoutParams parameters = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
         parameters.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        final View myView = inflater.inflate(R.layout.service_app_facebook, null);
+        final View myView = inflater.inflate(R.layout.service_full_window, null);
         myView.setOnTouchListener(new View.OnTouchListener() {
             WindowManager.LayoutParams updatedParameters = parameters;
             double x;
@@ -76,18 +80,6 @@ public class FloatingAppInsta extends Service {
         });
 
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
-        web1 = (WebView)myView.findViewById(R.id.webView1);
-        pbar = (ProgressBar)myView.findViewById(R.id.progressBar1);
-        pbar.setVisibility(View.GONE);
-
-        WebSettings webSetting = web1.getSettings();
-       // webSetting.setBuiltInZoomControls(true);
-        webSetting.setJavaScriptEnabled(true);
-
-        web1.setWebViewClient(new WebViewClient());
-
-        web1.loadUrl("https://www.instagram.com/");
-
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,29 +90,6 @@ public class FloatingAppInsta extends Service {
         });
 
         wm.addView(myView, parameters);
-    }
-    public class WebViewClient extends android.webkit.WebViewClient
-    {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            // TODO Auto-generated method stub
-            super.onPageStarted(view, url, favicon);
-            pbar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-            // TODO Auto-generated method stub
-            view.loadUrl(url);
-            return true;
-        }
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            // TODO Auto-generated method stub
-            super.onPageFinished(view, url);
-            pbar.setVisibility(View.GONE);
-        }
     }
     @Override
     public void onDestroy() {
