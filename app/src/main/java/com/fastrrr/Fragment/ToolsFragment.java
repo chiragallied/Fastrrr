@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.fastrrr.R;
 import com.fastrrr.Services.FloatingCalculator;
 import com.fastrrr.Services.FloatingDialer;
+import com.fastrrr.Services.FloatingMusicPlayer;
 import com.fastrrr.Services.FloatingStopWatch;
 import com.fastrrr.Services.FloatingWindow;
 
@@ -27,12 +28,13 @@ public class ToolsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private CardView cardViewStopwatch,cardViewCalculator;
+    private CardView cardViewStopwatch,cardViewCalculator,cardViewMusic;
 
     public void UIReference(View view)
     {
         cardViewStopwatch= (CardView) view.findViewById(R.id.cardViewStopwatch);
         cardViewCalculator= (CardView) view.findViewById(R.id.cardViewCalculator);
+        cardViewMusic= (CardView) view.findViewById(R.id.cardViewMusic);
     }
     public void UIClick()
     {
@@ -46,6 +48,12 @@ public class ToolsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().startService(new Intent(getActivity(),FloatingCalculator.class));
+            }
+        });
+        cardViewMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().startService(new Intent(getActivity(),FloatingMusicPlayer.class));
             }
         });
     }
