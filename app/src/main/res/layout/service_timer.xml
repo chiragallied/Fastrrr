@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="280dp"
+        android:background="#ffffff"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9">
+            <ImageView
+                android:id="@+id/buttonClose"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/close"/>
+            <ImageView
+                android:id="@+id/buttonMenu"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="5dp"
+                android:src="@android:drawable/ic_menu_manage"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1">
+
+            <LinearLayout
+                android:background="#EDEDED"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_weight="4">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="center">
+
+                    <EditText
+                        android:maxLength="2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/editTextHours"
+                        android:inputType="number"
+                        android:hint="HH"
+                        android:background="#EDEDED"
+                        android:textColor="#FF5500"
+                        android:textSize="24sp"
+                        android:textColorHint="#FF5500"
+                        android:gravity="center"/>
+
+
+                    <TextView
+                        android:layout_toRightOf="@+id/editTextHours"
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="24sp"
+                        android:gravity="center"
+                        android:textColor="#FF5500"
+                        android:text=" : "/>
+
+                    <EditText
+                        android:layout_toRightOf="@+id/textView1"
+                        android:maxLength="2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/editTextMinute"
+                        android:inputType="number"
+                        android:hint="MM"
+                        android:background="#EDEDED"
+                        android:textColor="#FF5500"
+                        android:textSize="24sp"
+                        android:textColorHint="#FF5500"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_toRightOf="@+id/editTextMinute"
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="24sp"
+                        android:gravity="center"
+                        android:textColor="#FF5500"
+                        android:text=" : "/>
+
+                    <EditText
+                        android:maxLength="2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/editTextSeconds"
+                        android:inputType="number"
+                        android:hint="SS"
+                        android:textColorHint="#000"
+                        android:background="#EDEDED"
+                        android:textColor="#000"
+                        android:textSize="24sp"
+                        android:gravity="center"
+                        android:layout_toRightOf="@+id/textView2"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="#F4F4F4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/textViewStart"
+                        android:layout_centerInParent="true"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:gravity="center"
+                        android:text="Start"
+                        android:textColor="#FF5500"
+                        android:textSize="14sp"
+                        android:background="@drawable/textview_rounded"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutReset"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_centerInParent="true"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:gravity="center"
+                        android:text="Reset"
+                        android:textColor="#000"
+                        android:padding="10dp"
+                        android:textSize="14sp"
+                        android:background="@drawable/textview_rounded_black"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
