@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -17,16 +18,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.MediaController;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
-import com.fastrrr.Adapter.VideoPlayerAdapter;
 import com.fastrrr.R;
+
+import java.util.concurrent.TimeUnit;
 
 public class FloatingMediaPlayer extends Service {
 
@@ -39,6 +44,7 @@ public class FloatingMediaPlayer extends Service {
     String[] thumbColumns = { MediaStore.Video.Thumbnails.DATA,
             MediaStore.Video.Thumbnails.VIDEO_ID };
     private GridView gridViewVideoListing;
+    private VideoView videoView;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -137,11 +143,37 @@ public class FloatingMediaPlayer extends Service {
     public void UIReference(View view)
     {
         gridViewVideoListing = (GridView) view.findViewById(R.id.gridViewVideoListing);
+        videoView = (VideoView) view.findViewById(R.id.videoView);
+        videoView.setVisibility(View.GONE);
     }
 
     public void UIClickEvent()
     {
+        gridViewVideoListing.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                videoView.setVisibility(View.VISIBLE);
+                gridViewVideoListing.setVisibility(View.GONE);
+                System.gc();
+                videColumnIndex = videoCursor
+                        .getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+                videoCursor.moveToPosition(position);
+                String filename = videoCursor.getString(videColumnIndex);
 
+                videoView.setVideoPath(filename);
+
+                videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mp.setLooping(true);
+                        videoView.start();
+                    }
+                });
+                /*videoView.setMediaController(new MediaController(getApplicationContext()));
+                videoView.requestFocus();
+                videoView.start();*/
+            }
+        });
     }
 
     private void init_phone_video_grid() {
@@ -149,26 +181,18 @@ public class FloatingMediaPlayer extends Service {
         String[] proj = { MediaStore.Video.Media._ID,
                 MediaStore.Video.Media.DATA,
                 MediaStore.Video.Media.DISPLAY_NAME,
-                MediaStore.Video.Media.SIZE };
-        videoCursor =  getApplicationContext().getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,proj, null, null, null);
+                MediaStore.Video.Media.DURATION };
+        videoCursor =  getApplicationContext().getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                proj, null, null, null);
         count = videoCursor.getCount();
         gridViewVideoListing.setAdapter(new VideoPlayerAdapter(getApplicationContext()));
-        //gridViewVideoListing.setOnItemClickListener(videogridlistener);
     }
 
-
-
     public class VideoPlayerAdapter extends BaseAdapter {
-
-        String[] thumbColumns = { MediaStore.Video.Thumbnails.DATA,
-                MediaStore.Video.Thumbnails.VIDEO_ID };
-        private Cursor videocursor;
-        private int video_column_index;
-        int count;
         private Context mContext;
         public VideoPlayerAdapter(Context context)
         {
-
+            mContext = context;
         }
         @Override
         public int getCount() {
@@ -195,23 +219,27 @@ public class FloatingMediaPlayer extends Service {
             if (row == null)
             {
                 viewHolder = new ViewHolder();
-                inflater = ((Activity) mContext).getLayoutInflater();
-                row = inflater.inflate(R.layout.item_video_player, viewGroup, false);
-                row.setTag(viewHolder);
+                row = LayoutInflater.from(mContext).inflate(
+                        R.layout.item_video_player, viewGroup, false);
+                //row.setTag(viewHolder);
                 viewHolder.imageViewVideoPlayerIcon = (ImageView) row.findViewById(R.id.imageViewVideoPlayerIcon);
                 viewHolder.textViewVideoTitle = (TextView) row.findViewById(R.id.textViewVideoTitle);
                 viewHolder.textViewVideoTime = (TextView) row.findViewById(R.id.textViewVideoTime);
 
 
-                video_column_index = videocursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
-                videocursor.moveToPosition(position);
+                videColumnIndex = videoCursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
+                videoCursor.moveToPosition(position);
 
-                String id = videocursor.getString(video_column_index);
-                video_column_index = videocursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION);
-                videocursor.moveToPosition(position);
+                String id = videoCursor.getString(videColumnIndex);
+                videColumnIndex = videoCursor.getColumnIndexOrThrow(MediaStore.Video.Media.DURATION);
+                videoCursor.moveToPosition(position);
+
 
                 viewHolder.textViewVideoTitle.setText(id);
-                viewHolder.textViewVideoTime.setText(videocursor.getString(video_column_index));
+                viewHolder.textViewVideoTime.setText(String.format("%d min  %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(videoCursor.getString(videColumnIndex))),
+                        TimeUnit.MILLISECONDS.toSeconds(Long.parseLong(videoCursor.getString(videColumnIndex))) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(videoCursor.getString(videColumnIndex))))));
 
                 String[] proj = { MediaStore.Video.Media._ID,
                         MediaStore.Video.Media.DISPLAY_NAME,
@@ -241,11 +269,11 @@ public class FloatingMediaPlayer extends Service {
             }
             return row;
         }
-        public class ViewHolder
-        {
-            public TextView textViewVideoTitle,textViewVideoTime;
-            public ImageView imageViewVideoPlayerIcon;
-        }
+    }
+    static class ViewHolder
+    {
+        public TextView textViewVideoTitle,textViewVideoTime;
+        public ImageView imageViewVideoPlayerIcon;
     }
 
 }

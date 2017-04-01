@@ -39,8 +39,18 @@
                 android:layout_height="match_parent"
                 android:id="@+id/gridViewVideoListing"
                 android:numColumns="2"
-                android:columnWidth="100dp"
+                android:verticalSpacing="10dp"
+                android:horizontalSpacing="10dp"
                 android:stretchMode="columnWidth"></GridView>
+
+            <VideoView
+                android:visibility="gone"
+                android:id="@+id/videoView"
+                android:layout_width="fill_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_height="fill_parent"/>
         </RelativeLayout>
 
     </LinearLayout>
