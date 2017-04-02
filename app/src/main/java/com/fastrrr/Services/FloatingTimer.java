@@ -144,23 +144,126 @@ public class FloatingTimer extends Service {
         relativeLayoutStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(textViewStart.getText().equals("Pause"))
+                if(editTextHours.getText().length()>0&&editTextMinute.getText().length()>0&&editTextSeconds.getText().length()>0)
                 {
-                    countDownTimer.cancel();
-                    textViewStart.setText("Resume");
-                }
+                    if(textViewStart.getText().equals("Pause"))
+                    {
+                        countDownTimer.cancel();
+                        textViewStart.setText("Resume");
+                    }
 
-                else if(textViewStart.getText().equals("Resume"))
-                {
-                    textViewStart.setText("Pause");
-                    if (editTextHours.getText().toString().equals("00")) {
-                        editTextHours.setText("00");
-                        if (editTextMinute.getText().toString().equals("00")) {
-                            editTextMinute.setText("00");
+                    else if(textViewStart.getText().equals("Resume"))
+                    {
+                        textViewStart.setText("Pause");
+                        if (editTextHours.getText().toString().equals("00")) {
+                            editTextHours.setText("00");
+                            if (editTextMinute.getText().toString().equals("00")) {
+                                editTextMinute.setText("00");
+                                secondint = Integer.valueOf(editTextSeconds.getText().toString());
+
+                                totalTimeCountInMilliseconds = ((secondint)) * 1000;
+                                timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
+                                countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500) {
+
+                                    @Override
+                                    public void onTick(long leftTimeInMilliseconds) {
+                                        long seconds = leftTimeInMilliseconds / 1000;
+                                        //  mSeekArc.setVisibility(View.INVISIBLE);
+
+
+                                        if (leftTimeInMilliseconds < timeBlinkInMilliseconds) {
+                                            if (blink) {
+                                                editTextHours.setVisibility(View.VISIBLE);
+                                                editTextMinute.setVisibility(View.VISIBLE);
+                                                editTextSeconds.setVisibility(View.VISIBLE);
+                                            } else {
+                                                editTextHours.setVisibility(View.INVISIBLE);
+                                                editTextMinute.setVisibility(View.INVISIBLE);
+                                                editTextSeconds.setVisibility(View.INVISIBLE);
+
+
+                                            }
+
+                                            blink = !blink;         // toggle the value of blink
+                                        }
+                                        //textViewMinute.setText(String.format(" : %02d", (seconds % 3600) / 60));
+                                        editTextSeconds.setText(String.format("%02d", (seconds % 60)));
+
+                                        // format the textview to show the easily readable format
+                                    }
+
+
+                                    @Override
+                                    public void onFinish() {
+                                        // this function will be called when the timecount is finished
+                                        //textViewShowTime.setText("Time up!");
+                                        editTextHours.setVisibility(View.VISIBLE);
+                                        editTextMinute.setVisibility(View.VISIBLE);
+                                        editTextSeconds.setVisibility(View.VISIBLE);
+                                        //  mSeekArc.setVisibility(View.VISIBLE);
+                                    }
+
+                                }.start();
+                            } else {
+                                minuteint = Integer.valueOf(editTextMinute.getText().toString());
+                                if (editTextSeconds.getText().toString().equals("00")) {
+                                    secondint = Integer.parseInt("00");
+                                } else {
+                                    secondint = Integer.valueOf(editTextSeconds.getText().toString());
+                                }
+
+                                totalTimeCountInMilliseconds = ((minuteint * 60) + (secondint)) * 1000;
+                                timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
+                                countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500)
+                                {
+
+                                    @Override
+                                    public void onTick(long leftTimeInMilliseconds) {
+                                        long seconds = leftTimeInMilliseconds / 1000;
+                                        //  mSeekArc.setVisibility(View.INVISIBLE);
+
+
+                                        if (leftTimeInMilliseconds < timeBlinkInMilliseconds) {
+                                            if (blink) {
+                                                editTextHours.setVisibility(View.VISIBLE);
+                                                editTextMinute.setVisibility(View.VISIBLE);
+                                                editTextSeconds.setVisibility(View.VISIBLE);
+                                            } else {
+                                                editTextHours.setVisibility(View.INVISIBLE);
+                                                editTextMinute.setVisibility(View.INVISIBLE);
+                                                editTextSeconds.setVisibility(View.INVISIBLE);
+
+
+                                            }
+
+                                            blink = !blink;         // toggle the value of blink
+                                        }
+                                        editTextMinute.setText(String.format("%02d", (seconds % 3600) / 60));
+                                        editTextSeconds.setText(String.format("%02d", (seconds % 60)));
+
+                                        // format the textview to show the easily readable format
+                                    }
+
+
+                                    @Override
+                                    public void onFinish() {
+                                        // this function will be called when the timecount is finished
+                                        //textViewShowTime.setText("Time up!");
+                                        editTextHours.setVisibility(View.VISIBLE);
+                                        editTextMinute.setVisibility(View.VISIBLE);
+                                        editTextSeconds.setVisibility(View.VISIBLE);
+                                        //  mSeekArc.setVisibility(View.VISIBLE);
+                                    }
+
+                                }.start();
+                            }
+                        } else {
+
+                            hourint = Integer.valueOf(editTextHours.getText().toString());
+                            minuteint = Integer.valueOf(editTextMinute.getText().toString());
                             secondint = Integer.valueOf(editTextSeconds.getText().toString());
 
-                            totalTimeCountInMilliseconds = ((secondint)) * 1000;
+                            totalTimeCountInMilliseconds = ((hourint * 60 * 60) + (minuteint * 60) + (secondint)) * 1000;
                             timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
                             countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500) {
 
@@ -185,58 +288,7 @@ public class FloatingTimer extends Service {
 
                                         blink = !blink;         // toggle the value of blink
                                     }
-                                    //textViewMinute.setText(String.format(" : %02d", (seconds % 3600) / 60));
-                                    editTextSeconds.setText(String.format("%02d", (seconds % 60)));
-
-                                    // format the textview to show the easily readable format
-                                }
-
-
-                                @Override
-                                public void onFinish() {
-                                    // this function will be called when the timecount is finished
-                                    //textViewShowTime.setText("Time up!");
-                                    editTextHours.setVisibility(View.VISIBLE);
-                                    editTextMinute.setVisibility(View.VISIBLE);
-                                    editTextSeconds.setVisibility(View.VISIBLE);
-                                    //  mSeekArc.setVisibility(View.VISIBLE);
-                                }
-
-                            }.start();
-                        } else {
-                            minuteint = Integer.valueOf(editTextMinute.getText().toString());
-                            if (editTextSeconds.getText().toString().equals("00")) {
-                                secondint = Integer.parseInt("00");
-                            } else {
-                                secondint = Integer.valueOf(editTextSeconds.getText().toString());
-                            }
-
-                            totalTimeCountInMilliseconds = ((minuteint * 60) + (secondint)) * 1000;
-                            timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
-                            countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500)
-                            {
-
-                                @Override
-                                public void onTick(long leftTimeInMilliseconds) {
-                                    long seconds = leftTimeInMilliseconds / 1000;
-                                    //  mSeekArc.setVisibility(View.INVISIBLE);
-
-
-                                    if (leftTimeInMilliseconds < timeBlinkInMilliseconds) {
-                                        if (blink) {
-                                            editTextHours.setVisibility(View.VISIBLE);
-                                            editTextMinute.setVisibility(View.VISIBLE);
-                                            editTextSeconds.setVisibility(View.VISIBLE);
-                                        } else {
-                                            editTextHours.setVisibility(View.INVISIBLE);
-                                            editTextMinute.setVisibility(View.INVISIBLE);
-                                            editTextSeconds.setVisibility(View.INVISIBLE);
-
-
-                                        }
-
-                                        blink = !blink;         // toggle the value of blink
-                                    }
+                                    editTextHours.setText(String.format("%02d ", seconds / 3600));
                                     editTextMinute.setText(String.format("%02d", (seconds % 3600) / 60));
                                     editTextSeconds.setText(String.format("%02d", (seconds % 60)));
 
@@ -256,70 +308,115 @@ public class FloatingTimer extends Service {
 
                             }.start();
                         }
-                    } else {
+                    }
+                    else {
+                        editTextHours.setCursorVisible(false);
+                        editTextMinute.setCursorVisible(false);
+                        editTextSeconds.setCursorVisible(false);
+                        textViewStart.setText("Pause");
+                        if (editTextHours.getText().toString().equals("")) {
+                            editTextHours.setText("00");
+                            if (editTextMinute.getText().toString().equals("")) {
+                                editTextMinute.setText("00");
+                                secondint = Integer.valueOf(editTextSeconds.getText().toString());
 
-                        hourint = Integer.valueOf(editTextHours.getText().toString());
-                        minuteint = Integer.valueOf(editTextMinute.getText().toString());
-                        secondint = Integer.valueOf(editTextSeconds.getText().toString());
+                                totalTimeCountInMilliseconds = ((secondint)) * 1000;
+                                timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
+                                countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500) {
 
-                        totalTimeCountInMilliseconds = ((hourint * 60 * 60) + (minuteint * 60) + (secondint)) * 1000;
-                        timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
-                        countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500) {
-
-                            @Override
-                            public void onTick(long leftTimeInMilliseconds) {
-                                long seconds = leftTimeInMilliseconds / 1000;
-                                //  mSeekArc.setVisibility(View.INVISIBLE);
+                                    @Override
+                                    public void onTick(long leftTimeInMilliseconds) {
+                                        long seconds = leftTimeInMilliseconds / 1000;
+                                        //  mSeekArc.setVisibility(View.INVISIBLE);
 
 
-                                if (leftTimeInMilliseconds < timeBlinkInMilliseconds) {
-                                    if (blink) {
+                                        if (leftTimeInMilliseconds < timeBlinkInMilliseconds) {
+                                            if (blink) {
+                                                editTextHours.setVisibility(View.VISIBLE);
+                                                editTextMinute.setVisibility(View.VISIBLE);
+                                                editTextSeconds.setVisibility(View.VISIBLE);
+                                            } else {
+                                                editTextHours.setVisibility(View.INVISIBLE);
+                                                editTextMinute.setVisibility(View.INVISIBLE);
+                                                editTextSeconds.setVisibility(View.INVISIBLE);
+                                            }
+                                            blink = !blink;         // toggle the value of blink
+                                        }
+                                        editTextSeconds.setText(String.format("%02d", (seconds % 60)));
+                                    }
+
+
+                                    @Override
+                                    public void onFinish() {
+                                        // this function will be called when the timecount is finished
+                                        //textViewShowTime.setText("Time up!");
                                         editTextHours.setVisibility(View.VISIBLE);
                                         editTextMinute.setVisibility(View.VISIBLE);
                                         editTextSeconds.setVisibility(View.VISIBLE);
-                                    } else {
-                                        editTextHours.setVisibility(View.INVISIBLE);
-                                        editTextMinute.setVisibility(View.INVISIBLE);
-                                        editTextSeconds.setVisibility(View.INVISIBLE);
-
-
+                                        //  mSeekArc.setVisibility(View.VISIBLE);
                                     }
 
-                                    blink = !blink;         // toggle the value of blink
+                                }.start();
+                            } else {
+                                minuteint = Integer.valueOf(editTextMinute.getText().toString());
+                                if (editTextSeconds.getText().toString().equals("")) {
+                                    secondint = Integer.parseInt("00");
+                                } else {
+                                    secondint = Integer.valueOf(editTextSeconds.getText().toString());
                                 }
-                                editTextHours.setText(String.format("%02d ", seconds / 3600));
-                                editTextMinute.setText(String.format("%02d", (seconds % 3600) / 60));
-                                editTextSeconds.setText(String.format("%02d", (seconds % 60)));
 
-                                // format the textview to show the easily readable format
+                                totalTimeCountInMilliseconds = ((minuteint * 60) + (secondint)) * 1000;
+                                timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
+                                countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500)
+                                {
+
+                                    @Override
+                                    public void onTick(long leftTimeInMilliseconds) {
+                                        long seconds = leftTimeInMilliseconds / 1000;
+                                        //  mSeekArc.setVisibility(View.INVISIBLE);
+
+
+                                        if (leftTimeInMilliseconds < timeBlinkInMilliseconds) {
+                                            if (blink) {
+                                                editTextHours.setVisibility(View.VISIBLE);
+                                                editTextMinute.setVisibility(View.VISIBLE);
+                                                editTextSeconds.setVisibility(View.VISIBLE);
+                                            } else {
+                                                editTextHours.setVisibility(View.INVISIBLE);
+                                                editTextMinute.setVisibility(View.INVISIBLE);
+                                                editTextSeconds.setVisibility(View.INVISIBLE);
+
+
+                                            }
+
+                                            blink = !blink;         // toggle the value of blink
+                                        }
+                                        editTextMinute.setText(String.format("%02d", (seconds % 3600) / 60));
+                                        editTextSeconds.setText(String.format("%02d", (seconds % 60)));
+
+                                        // format the textview to show the easily readable format
+                                    }
+
+
+                                    @Override
+                                    public void onFinish() {
+                                        // this function will be called when the timecount is finished
+                                        //textViewShowTime.setText("Time up!");
+                                        editTextHours.setVisibility(View.VISIBLE);
+                                        editTextMinute.setVisibility(View.VISIBLE);
+                                        editTextSeconds.setVisibility(View.VISIBLE);
+                                        //  mSeekArc.setVisibility(View.VISIBLE);
+                                    }
+
+                                }.start();
                             }
+                        } else {
 
-
-                            @Override
-                            public void onFinish() {
-                                // this function will be called when the timecount is finished
-                                //textViewShowTime.setText("Time up!");
-                                editTextHours.setVisibility(View.VISIBLE);
-                                editTextMinute.setVisibility(View.VISIBLE);
-                                editTextSeconds.setVisibility(View.VISIBLE);
-                                //  mSeekArc.setVisibility(View.VISIBLE);
-                            }
-
-                        }.start();
-                    }
-                }
-                else {
-                    editTextHours.setCursorVisible(false);
-                    editTextMinute.setCursorVisible(false);
-                    editTextSeconds.setCursorVisible(false);
-                    textViewStart.setText("Pause");
-                    if (editTextHours.getText().toString().equals("")) {
-                        editTextHours.setText("00");
-                        if (editTextMinute.getText().toString().equals("")) {
-                            editTextMinute.setText("00");
+                            hourint = Integer.valueOf(editTextHours.getText().toString());
+                            minuteint = Integer.valueOf(editTextMinute.getText().toString());
                             secondint = Integer.valueOf(editTextSeconds.getText().toString());
 
-                            totalTimeCountInMilliseconds = ((secondint)) * 1000;
+                            totalTimeCountInMilliseconds = ((hourint * 60 * 60) + (minuteint * 60) + (secondint)) * 1000;
                             timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
                             countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500) {
 
@@ -338,58 +435,13 @@ public class FloatingTimer extends Service {
                                             editTextHours.setVisibility(View.INVISIBLE);
                                             editTextMinute.setVisibility(View.INVISIBLE);
                                             editTextSeconds.setVisibility(View.INVISIBLE);
-                                        }
-                                        blink = !blink;         // toggle the value of blink
-                                    }
-                                    editTextSeconds.setText(String.format("%02d", (seconds % 60)));
-                                }
-
-
-                                @Override
-                                public void onFinish() {
-                                    // this function will be called when the timecount is finished
-                                    //textViewShowTime.setText("Time up!");
-                                    editTextHours.setVisibility(View.VISIBLE);
-                                    editTextMinute.setVisibility(View.VISIBLE);
-                                    editTextSeconds.setVisibility(View.VISIBLE);
-                                    //  mSeekArc.setVisibility(View.VISIBLE);
-                                }
-
-                            }.start();
-                        } else {
-                            minuteint = Integer.valueOf(editTextMinute.getText().toString());
-                            if (editTextSeconds.getText().toString().equals("")) {
-                                secondint = Integer.parseInt("00");
-                            } else {
-                                secondint = Integer.valueOf(editTextSeconds.getText().toString());
-                            }
-
-                            totalTimeCountInMilliseconds = ((minuteint * 60) + (secondint)) * 1000;
-                            timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
-                            countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500)
-                            {
-
-                                @Override
-                                public void onTick(long leftTimeInMilliseconds) {
-                                    long seconds = leftTimeInMilliseconds / 1000;
-                                    //  mSeekArc.setVisibility(View.INVISIBLE);
-
-
-                                    if (leftTimeInMilliseconds < timeBlinkInMilliseconds) {
-                                        if (blink) {
-                                            editTextHours.setVisibility(View.VISIBLE);
-                                            editTextMinute.setVisibility(View.VISIBLE);
-                                            editTextSeconds.setVisibility(View.VISIBLE);
-                                        } else {
-                                            editTextHours.setVisibility(View.INVISIBLE);
-                                            editTextMinute.setVisibility(View.INVISIBLE);
-                                            editTextSeconds.setVisibility(View.INVISIBLE);
 
 
                                         }
 
                                         blink = !blink;         // toggle the value of blink
                                     }
+                                    editTextHours.setText(String.format("%02d ", seconds / 3600));
                                     editTextMinute.setText(String.format("%02d", (seconds % 3600) / 60));
                                     editTextSeconds.setText(String.format("%02d", (seconds % 60)));
 
@@ -409,59 +461,8 @@ public class FloatingTimer extends Service {
 
                             }.start();
                         }
-                    } else {
-
-                        hourint = Integer.valueOf(editTextHours.getText().toString());
-                        minuteint = Integer.valueOf(editTextMinute.getText().toString());
-                        secondint = Integer.valueOf(editTextSeconds.getText().toString());
-
-                        totalTimeCountInMilliseconds = ((hourint * 60 * 60) + (minuteint * 60) + (secondint)) * 1000;
-                        timeBlinkInMilliseconds = totalTimeCountInMilliseconds / 1000;
-                        countDownTimer = new CountDownTimer(totalTimeCountInMilliseconds, 500) {
-
-                            @Override
-                            public void onTick(long leftTimeInMilliseconds) {
-                                long seconds = leftTimeInMilliseconds / 1000;
-                                //  mSeekArc.setVisibility(View.INVISIBLE);
-
-
-                                if (leftTimeInMilliseconds < timeBlinkInMilliseconds) {
-                                    if (blink) {
-                                        editTextHours.setVisibility(View.VISIBLE);
-                                        editTextMinute.setVisibility(View.VISIBLE);
-                                        editTextSeconds.setVisibility(View.VISIBLE);
-                                    } else {
-                                        editTextHours.setVisibility(View.INVISIBLE);
-                                        editTextMinute.setVisibility(View.INVISIBLE);
-                                        editTextSeconds.setVisibility(View.INVISIBLE);
-
-
-                                    }
-
-                                    blink = !blink;         // toggle the value of blink
-                                }
-                                editTextHours.setText(String.format("%02d ", seconds / 3600));
-                                editTextMinute.setText(String.format("%02d", (seconds % 3600) / 60));
-                                editTextSeconds.setText(String.format("%02d", (seconds % 60)));
-
-                                // format the textview to show the easily readable format
-                            }
-
-
-                            @Override
-                            public void onFinish() {
-                                // this function will be called when the timecount is finished
-                                //textViewShowTime.setText("Time up!");
-                                editTextHours.setVisibility(View.VISIBLE);
-                                editTextMinute.setVisibility(View.VISIBLE);
-                                editTextSeconds.setVisibility(View.VISIBLE);
-                                //  mSeekArc.setVisibility(View.VISIBLE);
-                            }
-
-                        }.start();
                     }
                 }
-
             }
         });
 
