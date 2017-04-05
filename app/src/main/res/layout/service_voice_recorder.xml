@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="280dp"
+        android:background="#ffffff"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9">
+            <ImageView
+                android:id="@+id/buttonClose"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/close"/>
+            <ImageView
+                android:id="@+id/buttonMenu"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="5dp"
+                android:src="@android:drawable/ic_menu_manage"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1">
+
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/btnRecord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_colorNormal="@color/primary"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_mic_white_36dp" />
+
+            <Chronometer
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/chronometer"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-light"
+                android:layout_alignBottom="@+id/recordProgressBar"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="25dp" />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/recordProgressBar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:progressDrawable="@drawable/record_progress_bar"
+                android:background="@drawable/record_progress_bar_background"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/recording_status_text"
+                android:text="@string/record_prompt"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:textColor="#000000"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_above="@+id/btnRecord"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="60dp" />
+
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:id="@+id/btnPause"
+                android:drawableLeft="@drawable/ic_media_pause"
+                android:text="@string/pause_recording_button"
+                android:textAllCaps="true"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_alignBottom="@+id/btnRecord"
+                android:layout_alignLeft="@+id/recording_status_text"
+                android:layout_alignStart="@+id/recording_status_text"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

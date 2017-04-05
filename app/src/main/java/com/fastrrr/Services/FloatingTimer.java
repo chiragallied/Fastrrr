@@ -30,7 +30,7 @@ public class FloatingTimer extends Service {
     long totalTimeCountInMilliseconds,timeBlinkInMilliseconds;
     private boolean blink;
     private TextView textViewStart;
-
+    int TimerStatus = 0;
     private EditText editTextHours,editTextMinute,editTextSeconds;
     private RelativeLayout relativeLayoutReset,relativeLayoutStart;
 
@@ -144,8 +144,10 @@ public class FloatingTimer extends Service {
         relativeLayoutStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(editTextHours.getText().length()>0&&editTextMinute.getText().length()>0&&editTextSeconds.getText().length()>0)
                 {
+                    TimerStatus = 1;
                     if(textViewStart.getText().equals("Pause"))
                     {
                         countDownTimer.cancel();
@@ -469,12 +471,13 @@ public class FloatingTimer extends Service {
         relativeLayoutReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                countDownTimer.cancel();
-                editTextHours.setText("HH");
-                editTextMinute.setText("MM");
-                editTextSeconds.setText("SS");
-                textViewStart.setText("Start");
-
+                if(TimerStatus == 1) {
+                    countDownTimer.cancel();
+                    editTextHours.setText("HH");
+                    editTextMinute.setText("MM");
+                    editTextSeconds.setText("SS");
+                    textViewStart.setText("Start");
+                }
             }
         });
     }

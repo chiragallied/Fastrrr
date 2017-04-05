@@ -55,6 +55,7 @@
         <service android:name=".Services.FloatingMusicPlayer"></service>
         <service android:name=".Services.FloatingTimer"></service>
         <service android:name=".Services.FloatingMediaPlayer"></service>
+        <service android:name=".Services.FloatingVoiceRecorder"></service>
     </application>
 
 </manifest>
