@@ -12,13 +12,13 @@ import android.view.ViewGroup;
 
 import com.fastrrr.R;
 import com.fastrrr.Services.FloatingCalculator;
-import com.fastrrr.Services.FloatingDialer;
+import com.fastrrr.Services.FloatingContactList;
+import com.fastrrr.Services.FloatingGallery;
 import com.fastrrr.Services.FloatingMediaPlayer;
 import com.fastrrr.Services.FloatingMusicPlayer;
 import com.fastrrr.Services.FloatingStopWatch;
 import com.fastrrr.Services.FloatingTimer;
 import com.fastrrr.Services.FloatingVoiceRecorder;
-import com.fastrrr.Services.FloatingWindow;
 
 public class ToolsFragment extends Fragment {
 
@@ -32,6 +32,7 @@ public class ToolsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private CardView cardViewStopwatch,cardViewCalculator,cardViewMusic,cardViewTimer,cardViewVideo,cardViewVoiceRecord;
+    private CardView cardViewContacts,cardViewGallery;
 
     public void UIReference(View view)
     {
@@ -41,6 +42,8 @@ public class ToolsFragment extends Fragment {
         cardViewTimer= (CardView) view.findViewById(R.id.cardViewTimer);
         cardViewVideo= (CardView) view.findViewById(R.id.cardViewVideo);
         cardViewVoiceRecord= (CardView) view.findViewById(R.id.cardViewVoiceRecord);
+        cardViewContacts= (CardView) view.findViewById(R.id.cardViewContacts);
+        cardViewGallery= (CardView) view.findViewById(R.id.cardViewGallery);
     }
     public void UIClick()
     {
@@ -79,6 +82,19 @@ public class ToolsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().startService(new Intent(getActivity(),FloatingVoiceRecorder.class));
+            }
+        });
+        cardViewContacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().startService(new Intent(getActivity(),FloatingContactList.class));
+            }
+        });
+
+        cardViewGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //getActivity().startService(new Intent(getActivity(),FloatingGallery.class));
             }
         });
     }

@@ -33,35 +33,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.1">
-
+            
             <GridView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/gridViewVideoListing"
+                android:id="@+id/gridViewImageList"
                 android:numColumns="2"
-                android:visibility="visible"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"
-                android:stretchMode="columnWidth"></GridView>
-
-           <!-- <VideoView
-                android:visibility="visible"
-                android:id="@+id/videoView"
-                android:layout_width="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"
-                android:layout_height="150dp"/>-->
-
-            <com.github.rtoshiro.view.video.FullscreenVideoLayout
-                android:visibility="gone"
-                android:id="@+id/videoView"
-                android:background="@android:color/white"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true"/>
+                android:padding="2dp"
+                android:horizontalSpacing="5dp"
+                android:verticalSpacing="5dp"></GridView>
         </RelativeLayout>
 
     </LinearLayout>

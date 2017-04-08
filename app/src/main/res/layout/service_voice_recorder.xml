@@ -33,67 +33,77 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.1">
+            android:layout_weight="0.1"
+            android:gravity="bottom|center"
+            android:paddingBottom="10dp">
 
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/btnRecord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_colorNormal="@color/primary"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_mic_white_36dp" />
-
-            <Chronometer
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/chronometer"
-                android:textSize="20sp"
-                android:fontFamily="sans-serif-light"
-                android:layout_alignBottom="@+id/recordProgressBar"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp" />
-
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:id="@+id/recordProgressBar"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:progressDrawable="@drawable/record_progress_bar"
-                android:background="@drawable/record_progress_bar_background"
-                android:indeterminate="false"
-                android:max="100"
-                android:progress="0"
+           <!-- <ImageView
                 android:layout_marginTop="5dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageView"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/record"/>-->
 
             <TextView
+                android:layout_marginTop="5dp"
+                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:text="00 : 00 : 00"
+                android:gravity="center"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/textViewTimer"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_below="@+id/textViewTimer">
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/play"
+                    android:id="@+id/button2"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="10dp"/>
+
+                <Button
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/button"
+                    android:background="@drawable/record1"
+                    android:layout_toRightOf="@+id/button2"
+                    android:layout_marginTop="40dp"
+                    />
+            </RelativeLayout>
+
+
+
+            <!--<Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/recording_status_text"
-                android:text="@string/record_prompt"
-                android:textStyle="bold"
-                android:textSize="17sp"
-                android:textColor="#000000"
-                android:fontFamily="sans-serif-condensed"
-                android:layout_above="@+id/btnRecord"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="60dp" />
+                android:text="Play"
+                android:id="@+id/button3"
+                android:layout_alignTop="@+id/button2"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                />
 
             <Button
-                android:layout_width="70dp"
-                android:layout_height="50dp"
-                android:id="@+id/btnPause"
-                android:drawableLeft="@drawable/ic_media_pause"
-                android:text="@string/pause_recording_button"
-                android:textAllCaps="true"
-                android:fontFamily="sans-serif-condensed"
-                android:layout_alignBottom="@+id/btnRecord"
-                android:layout_alignLeft="@+id/recording_status_text"
-                android:layout_alignStart="@+id/recording_status_text"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STOP PLAYING RECORDING "
+                android:id="@+id/button4"
+                android:layout_below="@+id/button2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
 
+                />-->
 
         </RelativeLayout>
 

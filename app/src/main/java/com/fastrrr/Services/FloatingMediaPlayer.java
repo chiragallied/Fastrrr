@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -30,7 +31,9 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.fastrrr.R;
+import com.github.rtoshiro.view.video.FullscreenVideoLayout;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class FloatingMediaPlayer extends Service {
@@ -44,7 +47,7 @@ public class FloatingMediaPlayer extends Service {
     String[] thumbColumns = { MediaStore.Video.Thumbnails.DATA,
             MediaStore.Video.Thumbnails.VIDEO_ID };
     private GridView gridViewVideoListing;
-    private VideoView videoView;
+    private FullscreenVideoLayout videoView;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -143,7 +146,7 @@ public class FloatingMediaPlayer extends Service {
     public void UIReference(View view)
     {
         gridViewVideoListing = (GridView) view.findViewById(R.id.gridViewVideoListing);
-        videoView = (VideoView) view.findViewById(R.id.videoView);
+        videoView = (FullscreenVideoLayout) view.findViewById(R.id.videoView);
         videoView.setVisibility(View.GONE);
     }
 
@@ -160,15 +163,23 @@ public class FloatingMediaPlayer extends Service {
                 videoCursor.moveToPosition(position);
                 String filename = videoCursor.getString(videColumnIndex);
 
-                videoView.setVideoPath(filename);
+                //videoView.setVideoPath(filename);
+                Uri videoUri = Uri.parse(filename);
+                try {
+                    videoView.setVideoURI(videoUri);
 
-                videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                /*videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
                         mp.setLooping(true);
                         videoView.start();
                     }
-                });
+                });*/
                 /*videoView.setMediaController(new MediaController(getApplicationContext()));
                 videoView.requestFocus();
                 videoView.start();*/

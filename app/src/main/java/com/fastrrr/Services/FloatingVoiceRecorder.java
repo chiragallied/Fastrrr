@@ -3,15 +3,22 @@ package com.fastrrr.Services;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -26,13 +33,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fastrrr.R;
-import com.fastrrr.RecordingService;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static java.security.AccessController.getContext;
 
 public class FloatingVoiceRecorder extends Service {
@@ -40,23 +53,21 @@ public class FloatingVoiceRecorder extends Service {
     WindowManager wm;
     ImageView buttonClose,buttonMenu;
     ProgressBar pbar;
+    int minute =0, seconds = 0, hour = 0;
+    Button buttonStart, buttonPause, buttonPlay, buttonStopPlayingRecording ;
+    //ImageView imageViewPlay,imageViewRecord;
+    String AudioSavePathInDevice = null;
+    MediaRecorder mediaRecorder ;
+    Random random ;
+    String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
+    public static final int RequestPermissionCode = 1;
+    MediaPlayer mediaPlayer ;
 
-    private static final String ARG_POSITION = "position";
+    private TextView textViewTimer;
+    Timer t;
 
-    private int position;
+    int recordStatus = 1 ,playStatus = 1;
 
-    //Recording controls
-    private FloatingActionButton mRecordButton = null;
-    private Button mPauseButton = null;
-
-    private TextView mRecordingPrompt;
-    private int mRecordPromptCount = 0;
-
-    private boolean mStartRecording = true;
-    private boolean mPauseRecording = true;
-
-    private Chronometer mChronometer = null;
-    long timeWhenPaused = 0;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -155,143 +166,322 @@ public class FloatingVoiceRecorder extends Service {
 
     public void UIReference(View view)
     {
-        mChronometer = (Chronometer) view.findViewById(R.id.chronometer);
-        //update recording prompt text
-        mRecordingPrompt = (TextView) view.findViewById(R.id.recording_status_text);
-        mRecordButton = (FloatingActionButton) view.findViewById(R.id.btnRecord);
-        mRecordButton.setColorNormal(getResources().getColor(R.color.primary));
-        mRecordButton.setColorPressed(getResources().getColor(R.color.primary_dark));
+       /* imageViewRecord = (ImageView) view.findViewById(R.id.imageViewRecord);
+        imageViewPlay = (ImageView) view.findViewById(R.id.imageViewPlay);*/
+
+        buttonStart = (Button) view.findViewById(R.id.button);
+        buttonPlay = (Button) view.findViewById(R.id.button2);
 
 
-        mPauseButton = (Button) view.findViewById(R.id.btnPause);
-        mPauseButton.setVisibility(View.GONE);
+        textViewTimer = (TextView) view.findViewById(R.id.textViewTimer);
+        buttonPlay.setEnabled(false);
+        /*buttonPlayLastRecordAudio.setEnabled(false);
+        buttonStopPlayingRecording.setEnabled(false);*/
+
+        random = new Random();
+
 
     }
 
     public void UIClickEvent()
     {
-        mRecordButton.setOnClickListener(new View.OnClickListener() {
+        buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                onRecord(mStartRecording);
-                mStartRecording = !mStartRecording;
+            public void onClick(View view) {
+
+                //if(buttonStart.getText().toString().equalsIgnoreCase("Record"))
+                if(recordStatus == 1)
+                {
+                    //imageViewPlay.setClickable(false);
+                    buttonPlay.setEnabled(false);
+                    recordStatus = 0;
+                    textViewTimer.setText("00 : 00 : 00");
+                    if (checkPermission()) {
+                        buttonStart.setBackgroundResource(R.drawable.record2);
+                        //buttonStart.setText("Stop");
+                        t = new Timer("hello", true);
+                        t.schedule(new TimerTask() {
+
+                            @Override
+                            public void run() {
+                                //imageViewRecord.setImageDrawable(getResources().getDrawable(R.drawable.record2));
+                                textViewTimer.post(new Runnable() {
+
+                                    public void run() {
+                                        seconds++;
+                                        if (seconds == 60) {
+                                            seconds = 0;
+                                            minute++;
+                                        }
+                                        if (minute == 60) {
+                                            minute = 0;
+                                            hour++;
+                                        }
+                                        textViewTimer.setText(""
+                                                + (hour > 9 ? hour : ("0" + hour)) + " : "
+                                                + (minute > 9 ? minute : ("0" + minute))
+                                                + " : "
+                                                + (seconds > 9 ? seconds : "0" + seconds));
+                                    }
+                                });
+                            }
+                        }, 1000, 1000);
+
+                        File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
+                        if (!folder.exists()) {
+                            folder.mkdir();
+                        }
+                        AudioSavePathInDevice = folder + "/" + CreateRandomAudioFileName(5) + "AudioRecording.3gp";
+
+                        MediaRecorderReady();
+
+                        try {
+                            mediaRecorder.prepare();
+                            mediaRecorder.start();
+                        } catch (IllegalStateException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                        Toast.makeText(FloatingVoiceRecorder.this, "Recording started", Toast.LENGTH_LONG).show();
+                    } else {
+                        requestPermission();
+                    }
+                }
+               // else if(buttonStart.getText().toString().equalsIgnoreCase("Stop")){
+                else if(recordStatus == 0){
+                    //imageViewPlay.setClickable(true);
+                    //buttonStart.setText("Record");
+                    buttonStart.setBackgroundResource(R.drawable.record1);
+                    buttonPlay.setEnabled(true);
+                    recordStatus = 1;
+                    t.cancel();
+                    t.purge();
+                    mediaRecorder.stop();
+                    Toast.makeText(FloatingVoiceRecorder.this, "Recording Completed", Toast.LENGTH_LONG).show();
+                }
             }
         });
-    }
 
-    private void onRecord(boolean start){
+        buttonPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) throws IllegalArgumentException, SecurityException, IllegalStateException {
 
-        Intent intent = new Intent(getApplicationContext(), RecordingService.class);
+                //if(buttonPlay.getText().toString().equalsIgnoreCase("Play"))
+                if(playStatus == 1)
+                {
+                    //imageViewPlay.setImageDrawable(getResources().getDrawable(R.d));
+                    //imageViewRecord.setClickable(false);
+                    buttonStart.setEnabled(false);
+                    buttonPlay.setBackgroundResource(R.drawable.pause);
+                   // buttonPlay.setText("Pause");
+                    playStatus = 0;
+                    mediaPlayer = new MediaPlayer();
 
-
-        if (start) {
-            // start recording
-            mRecordButton.setImageResource(R.drawable.ic_media_stop);
-            //mPauseButton.setVisibility(View.VISIBLE);
-            Toast.makeText(getApplicationContext(),R.string.toast_recording_start,Toast.LENGTH_SHORT).show();
-            File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
-            if (!folder.exists()) {
-                //folder /SoundRecorder doesn't exist, create the folder
-                folder.mkdir();
-            }
-
-            //start Chronometer
-            mChronometer.setBase(SystemClock.elapsedRealtime());
-            mChronometer.start();
-            mChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                @Override
-                public void onChronometerTick(Chronometer chronometer) {
-                    if (mRecordPromptCount == 0) {
-                        mRecordingPrompt.setText(getString(R.string.record_in_progress) + ".");
-                    } else if (mRecordPromptCount == 1) {
-                        mRecordingPrompt.setText(getString(R.string.record_in_progress) + "..");
-                    } else if (mRecordPromptCount == 2) {
-                        mRecordingPrompt.setText(getString(R.string.record_in_progress) + "...");
-                        mRecordPromptCount = -1;
+                    try {
+                        mediaPlayer.setDataSource(AudioSavePathInDevice);
+                        mediaPlayer.prepare();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
 
-                    mRecordPromptCount++;
+                    mediaPlayer.start();
+
+                    Toast.makeText(FloatingVoiceRecorder.this, "Recording Playing", Toast.LENGTH_LONG).show();
+
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                        public void onCompletion(MediaPlayer mp) {
+                            Log.i("Completion Listener","Song Complete");
+                            Toast.makeText(getApplicationContext(), "Media Completed", Toast.LENGTH_SHORT).show();
+                            buttonStart.setEnabled(true);
+                            buttonPlay.setBackgroundResource(R.drawable.play);
+                            playStatus = 1;
+                        }
+                    });
+
                 }
-            });
+                //else if(buttonPlay.getText().toString().equalsIgnoreCase("Pause")){
+                else if(playStatus == 0){
+                    playStatus = 1;
+                    buttonStart.setEnabled(true);
+                    buttonPlay.setBackgroundResource(R.drawable.play);
+                    //buttonPlay.setText("Record");
+                    //imageViewRecord.setClickable(true);
+                    if(mediaPlayer != null){
 
-            //start RecordingService
-            startService(intent);
-            //keep screen on while recording
-            //((Activity) getContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
 
-            mRecordingPrompt.setText(getString(R.string.record_in_progress) + ".");
-            mRecordPromptCount++;
+                        MediaRecorderReady();
 
-        } else {
-            //stop recording
-            mRecordButton.setImageResource(R.drawable.ic_mic_white_36dp);
-            //mPauseButton.setVisibility(View.GONE);
-            mChronometer.stop();
-            mChronometer.setBase(SystemClock.elapsedRealtime());
-            timeWhenPaused = 0;
-            mRecordingPrompt.setText(getString(R.string.record_prompt));
-
-            stopService(intent);
-            //allow the screen to turn off again once recording is finished
-            //((Activity) getApplicationContext()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
-    }
-
-
-
-    //TODO: implement pause recording
-    private void onPauseRecord(boolean pause) {
-        if (pause) {
-            //pause recording
-            mPauseButton.setCompoundDrawablesWithIntrinsicBounds
-                    (R.drawable.ic_media_play ,0 ,0 ,0);
-            mRecordingPrompt.setText((String)getString(R.string.resume_recording_button).toUpperCase());
-            timeWhenPaused = mChronometer.getBase() - SystemClock.elapsedRealtime();
-            mChronometer.stop();
-        } else {
-            //resume recording
-            mPauseButton.setCompoundDrawablesWithIntrinsicBounds
-                    (R.drawable.ic_media_pause ,0 ,0 ,0);
-            mRecordingPrompt.setText((String)getString(R.string.pause_recording_button).toUpperCase());
-            mChronometer.setBase(SystemClock.elapsedRealtime() + timeWhenPaused);
-            mChronometer.start();
-        }
-    }
-
-    /*public class MyAdapter extends FragmentPagerAdapter {
-        private String[] titles = { "Record", "Saved Recordings" };
-
-        public MyAdapter(FragmentManager fm) {
-            super(fm);
-        }*//*
-
-        public MyAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
-
-
-
-        @Override
-        public Fragment getItem(int position) {
-            switch(position){
-                case 0:{
-                    return RecordFragment.newInstance(position);
-                }
-                case 1:{
-                    return FileViewerFragment.newInstance(position);
+                    }
                 }
             }
-            return null;
-        }
+        });
 
-        @Override
-        public int getCount() {
-            return titles.length;
-        }
+         /*buttonPause.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
+                 if(buttonPause.getText().toString().equalsIgnoreCase("Pause")) {
+                     buttonPause.setText("Resume");
+                     mediaRecorder.stop();
+                     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                     mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                     mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                     FileOutputStream paused_file = null;
+                     try {
+                         paused_file = new FileOutputStream(AudioSavePathInDevice);
+                     } catch (FileNotFoundException e) {
+                         e.printStackTrace();
+                     }
+                     try {
+                         mediaRecorder.setOutputFile(paused_file.getFD());
+                     } catch (IOException e) {
+                         e.printStackTrace();
+                     }
+                 }
+                 else if(buttonPause.getText().toString().equalsIgnoreCase("Resume"))
+                 {
+                     try {
+                         mediaRecorder.prepare();
+                     } catch (IOException e) {
+                         e.printStackTrace();
+                     }
+                     mediaRecorder.start();
+                 }
+             }
+         });*/
+
+
+
+        /*buttonStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                t.cancel();
+
+                mediaRecorder.stop();
+
+                buttonStop.setEnabled(false);
+                buttonPlayLastRecordAudio.setEnabled(true);
+                buttonStart.setEnabled(true);
+                buttonStopPlayingRecording.setEnabled(false);
+
+                Toast.makeText(FloatingVoiceRecorder.this, "Recording Completed", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        buttonPlayLastRecordAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) throws IllegalArgumentException, SecurityException, IllegalStateException {
+
+                buttonStop.setEnabled(false);
+                buttonStart.setEnabled(false);
+                buttonStopPlayingRecording.setEnabled(true);
+
+                mediaPlayer = new MediaPlayer();
+
+                try {
+                    mediaPlayer.setDataSource(AudioSavePathInDevice);
+                    mediaPlayer.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                mediaPlayer.start();
+
+                Toast.makeText(FloatingVoiceRecorder.this, "Recording Playing", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        buttonStopPlayingRecording.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                buttonStop.setEnabled(false);
+                buttonStart.setEnabled(true);
+                buttonStopPlayingRecording.setEnabled(false);
+                buttonPlayLastRecordAudio.setEnabled(true);
+
+                if(mediaPlayer != null){
+
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+
+                    MediaRecorderReady();
+
+                }
+
+            }
+        });*/
+
+    }
+
+    public void MediaRecorderReady(){
+
+        mediaRecorder=new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        mediaRecorder.setOutputFile(AudioSavePathInDevice);
+    }
+
+    public String CreateRandomAudioFileName(int string){
+
+        StringBuilder stringBuilder = new StringBuilder( string );
+
+        int i = 0 ;
+        while(i < string ) {
+
+            stringBuilder.append(RandomAudioFileName.charAt(random.nextInt(RandomAudioFileName.length())));
+
+            i++ ;
         }
-    }*/
+        return stringBuilder.toString();
+
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions((Activity) getApplicationContext(), new String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, RequestPermissionCode);
+
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case RequestPermissionCode:
+                if (grantResults.length > 0) {
+
+                    boolean StoragePermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean RecordPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (StoragePermission && RecordPermission) {
+
+                        Toast.makeText(FloatingVoiceRecorder.this, "Permission Granted", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(FloatingVoiceRecorder.this,"Permission Denied",Toast.LENGTH_LONG).show();
+
+                    }
+                }
+
+                break;
+        }
+    }
+
+    public boolean checkPermission() {
+
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), RECORD_AUDIO);
+
+        return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+
 }
