@@ -35,6 +35,7 @@ public class FloatingContactList extends Service {
     Cursor phones;
     ArrayList<UserType> selectUsers;
     private ContactUserAdapter mAdapter;
+    String lastnumber = "0";
 
 
     @Override
@@ -135,7 +136,8 @@ public class FloatingContactList extends Service {
     }
     public void getContactList()
     {
-        phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,  ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+                + " ASC");
         LoadContact loadContact = new LoadContact();
         loadContact.execute();
     }
@@ -151,7 +153,7 @@ public class FloatingContactList extends Service {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String PhoneNumber = mAdapter.getItem(i).getPhone();
-                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", PhoneNumber, null));
+                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.fromParts("tel", PhoneNumber, null));
                 //callIntent.setData(Uri.parse(PhoneNumber));
                 callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(callIntent);
@@ -202,11 +204,19 @@ public class FloatingContactList extends Service {
                     String EmailAddr = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
                     String image_thumb = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
 
-                    selectUser.setUserImage(image_thumb);
-                    selectUser.setName(name);
-                    selectUser.setPhone(phoneNumber);
-                    selectUsers.add(selectUser);
+                    if (phoneNumber.equals(lastnumber))
+                    {
+
+                    }
+                    else {
+                        lastnumber = phoneNumber;
+                        selectUser.setUserImage(image_thumb);
+                        selectUser.setName(name);
+                        selectUser.setPhone(phoneNumber);
+                        selectUsers.add(selectUser);
+                    }
                 }
+                phones.close();
             } else {
                 Log.e("Cursor close 1", "----------------");
             }

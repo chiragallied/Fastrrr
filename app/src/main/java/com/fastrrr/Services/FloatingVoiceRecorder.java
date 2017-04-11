@@ -193,7 +193,7 @@ public class FloatingVoiceRecorder extends Service {
                 if(recordStatus == 1)
                 {
                     //imageViewPlay.setClickable(false);
-                    buttonPlay.setEnabled(false);
+                    buttonPlay.setEnabled(true);
                     recordStatus = 0;
                     textViewTimer.setText("00 : 00 : 00");
                     if (checkPermission()) {
@@ -261,6 +261,9 @@ public class FloatingVoiceRecorder extends Service {
                     t.cancel();
                     t.purge();
                     mediaRecorder.stop();
+                    mediaRecorder.reset();
+                    mediaRecorder.release();
+                    //mediaRecorder.stop();
                     Toast.makeText(FloatingVoiceRecorder.this, "Recording Completed", Toast.LENGTH_LONG).show();
                 }
             }
@@ -270,7 +273,16 @@ public class FloatingVoiceRecorder extends Service {
             @Override
             public void onClick(View view) throws IllegalArgumentException, SecurityException, IllegalStateException {
 
-                //if(buttonPlay.getText().toString().equalsIgnoreCase("Play"))
+                if(recordStatus == 0) {
+                    recordStatus = 2;
+                    mediaRecorder.pause();
+                    // recording paused
+                } else if(recordStatus == 2) {
+                    mediaRecorder.resume();
+                    // resume recording
+                }
+
+                /*//if(buttonPlay.getText().toString().equalsIgnoreCase("Play"))
                 if(playStatus == 1)
                 {
                     //imageViewPlay.setImageDrawable(getResources().getDrawable(R.d));
@@ -319,7 +331,7 @@ public class FloatingVoiceRecorder extends Service {
                         MediaRecorderReady();
 
                     }
-                }
+                }*/
             }
         });
 
