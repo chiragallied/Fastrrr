@@ -12,7 +12,7 @@
             android:layout_height="100dp"
             android:id="@+id/imageViewVideoPlayerIcon"/>
 
-        <TextView
+        <com.fastrrr.Singletone.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
@@ -20,7 +20,7 @@
             android:id="@+id/textViewVideoTitle"
             android:layout_below="@+id/imageViewVideoPlayerIcon"/>
 
-        <TextView
+        <com.fastrrr.Singletone.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="8sp"

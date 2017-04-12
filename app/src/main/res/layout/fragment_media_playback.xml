@@ -23,7 +23,7 @@
             android:layout_margin="7dp"
             android:orientation="vertical">
 
-            <TextView
+            <com.fastrrr.Singletone.MyTextView
                 android:id="@+id/file_name_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <com.fastrrr.Singletone.MyTextView
                     android:id="@+id/current_progress_text_view"
                     android:text="00:00"
                     android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
                     app:fab_shadow="false"/>
 
 
-                <TextView
+                <com.fastrrr.Singletone.MyTextView
                     android:id="@+id/file_length_text_view"
                     android:text="00:00"
                     android:layout_width="wrap_content"

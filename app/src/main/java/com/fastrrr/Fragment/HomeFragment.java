@@ -11,6 +11,8 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+
 import com.fastrrr.R;
 import com.fastrrr.Services.FloatingFullWindow;
 import com.fastrrr.Services.FloatingWindow;
@@ -25,17 +27,17 @@ public class HomeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private CardView cardViewBrowser,cardViewWidget,cardViewActive,cardViewApps,cardViewTools,cardViewUrls;
+    private RelativeLayout cardViewBrowser,cardViewWidget,cardViewActive,cardViewApps,cardViewTools,cardViewUrls;
 
 
     public void UIReference(View view)
     {
-        cardViewBrowser= (CardView) view.findViewById(R.id.cardViewBrowser);
-        cardViewWidget= (CardView) view.findViewById(R.id.cardViewWidget);
-        cardViewActive= (CardView) view.findViewById(R.id.cardViewActive);
-        cardViewApps= (CardView) view.findViewById(R.id.cardViewApps);
-        cardViewTools= (CardView) view.findViewById(R.id.cardViewTools);
-        cardViewUrls= (CardView) view.findViewById(R.id.cardViewUrls);
+        cardViewBrowser= (RelativeLayout) view.findViewById(R.id.cardViewBrowser);
+        cardViewWidget= (RelativeLayout) view.findViewById(R.id.cardViewWidget);
+        cardViewActive= (RelativeLayout) view.findViewById(R.id.cardViewActive);
+        cardViewApps= (RelativeLayout) view.findViewById(R.id.cardViewApps);
+        cardViewTools= (RelativeLayout) view.findViewById(R.id.cardViewTools);
+        cardViewUrls= (RelativeLayout) view.findViewById(R.id.cardViewUrls);
     }
     public void UIClick()
     {

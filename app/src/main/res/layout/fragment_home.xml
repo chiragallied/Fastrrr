@@ -7,23 +7,21 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ebebeb">
+        android:background="#ffffff">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#ebebeb"
+        android:background="#ffffff"
         android:paddingTop="@dimen/_5sdp"
         android:paddingBottom="@dimen/_5sdp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_65sdp"
             android:layout_weight="1"
-            android:paddingTop="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_5sdp"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp">
-            <android.support.v7.widget.CardView
+            <RelativeLayout
                 android:id="@+id/cardViewBrowser"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -38,13 +36,13 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_browser"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewBrowserIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Browser"
                         android:textSize="@dimen/_15sdp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_centerVertical="true"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -52,8 +50,15 @@
                         android:src="@drawable/right_arrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
+                    <View
+                        android:layout_toRightOf="@+id/imageViewBrowserIcon"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#bfbfbf"
+                        android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -63,7 +68,7 @@
             android:paddingBottom="@dimen/_5sdp"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp">
-            <android.support.v7.widget.CardView
+            <RelativeLayout
                 android:id="@+id/cardViewWidget"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -79,7 +84,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_widget"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewWidgetIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -93,8 +98,15 @@
                         android:src="@drawable/right_arrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
+                    <View
+                        android:layout_toRightOf="@+id/imageViewWidgetIcon"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#bfbfbf"
+                        android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -104,7 +116,7 @@
             android:paddingBottom="@dimen/_5sdp"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp">
-            <android.support.v7.widget.CardView
+            <RelativeLayout
                 android:id="@+id/cardViewActive"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -120,7 +132,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_activefloaters"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewActiveIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -134,8 +146,15 @@
                         android:src="@drawable/right_arrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
+                    <View
+                        android:layout_toRightOf="@+id/imageViewActiveIcon"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#bfbfbf"
+                        android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -145,7 +164,7 @@
             android:paddingBottom="@dimen/_5sdp"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp">
-            <android.support.v7.widget.CardView
+            <RelativeLayout
                 android:id="@+id/cardViewApps"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -161,7 +180,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_apps"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewAppsIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -175,8 +194,15 @@
                         android:src="@drawable/right_arrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
+                    <View
+                        android:layout_toRightOf="@+id/imageViewAppsIcon"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#bfbfbf"
+                        android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -186,7 +212,7 @@
             android:paddingBottom="@dimen/_5sdp"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp">
-            <android.support.v7.widget.CardView
+            <RelativeLayout
                 android:id="@+id/cardViewTools"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -202,7 +228,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_tools"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewToolsIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -216,8 +242,15 @@
                         android:src="@drawable/right_arrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
+                    <View
+                        android:layout_toRightOf="@+id/imageViewToolsIcon"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#bfbfbf"
+                        android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -227,7 +260,7 @@
             android:paddingBottom="@dimen/_5sdp"
             android:paddingLeft="@dimen/_5sdp"
             android:paddingRight="@dimen/_5sdp">
-            <android.support.v7.widget.CardView
+            <RelativeLayout
                 android:id="@+id/cardViewUrls"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
@@ -242,7 +275,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_url"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewUrlIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -256,8 +289,15 @@
                         android:src="@drawable/right_arrow"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"/>
+                    <View
+                        android:layout_toRightOf="@+id/imageViewUrlIcon"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#bfbfbf"
+                        android:layout_alignParentBottom="true"/>
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
     </ScrollView>

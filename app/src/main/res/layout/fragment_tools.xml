@@ -38,7 +38,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_calculator"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewCalculatorIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_videoplayer"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewVideoIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_musicplaye"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewMusicIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -161,7 +161,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_gallery"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewGalleryIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -202,7 +202,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_dialer"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewDialerIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_contacts"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewContactsIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -284,7 +284,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_notes"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewNotesIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -325,7 +325,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_timer"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewTimerIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -366,7 +366,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_stopwatch"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewStopwatchIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -407,7 +407,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_photo_library_black_24dp"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewPdfViewIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -448,7 +448,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_photo_library_black_24dp"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewVoiceRecordIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -489,7 +489,7 @@
                         android:layout_marginLeft="@dimen/_5sdp"
                         android:layout_centerVertical="true"
                         app:srcCompat="@drawable/ic_camera"/>
-                    <TextView
+                    <com.fastrrr.Singletone.MyTextView
                         android:layout_toRightOf="@+id/imageViewCameraIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

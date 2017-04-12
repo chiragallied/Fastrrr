@@ -1,10 +1,18 @@
 package com.fastrrr.Services;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
+import android.media.RingtoneManager;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,7 +22,9 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.fastrrr.Activity.MainActivity;
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 public class FloatingAppFacebook extends Service {
 
@@ -76,6 +86,7 @@ public class FloatingAppFacebook extends Service {
             }
         });
 
+        Constants.showNotification(FloatingAppFacebook.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         web1 = (WebView)myView.findViewById(R.id.webView1);
         pbar = (ProgressBar)myView.findViewById(R.id.progressBar1);
@@ -95,6 +106,7 @@ public class FloatingAppFacebook extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
 
