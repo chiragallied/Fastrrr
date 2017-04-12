@@ -59,6 +59,7 @@
         <service android:name=".Services.FloatingTimer"></service>
         <service android:name=".Services.FloatingMediaPlayer"></service>
         <service android:name=".Services.FloatingVoiceRecorder"></service>
+        <service android:name=".Services.FloatingNewVoiceRecorder"></service>
         <service android:name=".Services.FloatingContactList"></service>
         <service android:name=".Services.FloatingGallery"></service>
     </application>

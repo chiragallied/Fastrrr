@@ -16,6 +16,7 @@ import com.fastrrr.Services.FloatingContactList;
 import com.fastrrr.Services.FloatingGallery;
 import com.fastrrr.Services.FloatingMediaPlayer;
 import com.fastrrr.Services.FloatingMusicPlayer;
+import com.fastrrr.Services.FloatingNewVoiceRecorder;
 import com.fastrrr.Services.FloatingStopWatch;
 import com.fastrrr.Services.FloatingTimer;
 import com.fastrrr.Services.FloatingVoiceRecorder;
@@ -81,7 +82,7 @@ public class ToolsFragment extends Fragment {
         cardViewVoiceRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().startService(new Intent(getActivity(),FloatingVoiceRecorder.class));
+                getActivity().startService(new Intent(getActivity(),FloatingNewVoiceRecorder.class));
             }
         });
         cardViewContacts.setOnClickListener(new View.OnClickListener() {
