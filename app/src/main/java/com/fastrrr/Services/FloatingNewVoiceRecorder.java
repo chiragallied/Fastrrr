@@ -5,42 +5,56 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.PixelFormat;
 import android.media.AudioFormat;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.FileObserver;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fastrrr.Adapter.RecorderListAdapter;
 import com.fastrrr.R;
 import com.fastrrr.Type.RecordType;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import omrecorder.AudioChunk;
 import omrecorder.AudioSource;
@@ -52,24 +66,34 @@ import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 
-public class FloatingNewVoiceRecorder extends Service {
+public class FloatingNewVoiceRecorder extends Service{
 
     WindowManager wm;
     ImageView buttonClose,buttonMenu;
     ProgressBar pbar;
     Recorder recorder;
     Random random ;
-
+    MediaPlayer mediaPlayer;
     int recordStatus = 0;
-    private TextView textViewTitle;
+    private TextView textViewTitle,file_name_text_view;
     private static final int SELECT_AUDIO = 2;
     String selectedPath = "";
+    private SeekBar mSeekBar;
+    private FloatingActionButton fab_play;
 
     private RecorderListAdapter mAdapter;
+    private ArrayList<RecordType> mData;
     private Button buttonPlay,buttonRecord,buttonSave;
     String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
     private ListView listViewRecordingListing;
+    private MediaPlayer mMediaPlayer = null;
     private RelativeLayout relativeLayoutListing,relativeLayoutRecording;
+
+    private CardView mediaplayer_view;
+    int saveRecordStatus = 0;
+    private Handler mHandler = new Handler();
+    String file,fileName;
+    private boolean isPlaying = false;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -158,6 +182,8 @@ public class FloatingNewVoiceRecorder extends Service {
         UIReference(myView);
         UIClickEvent();
         setupRecorder();
+        mData = new ArrayList<RecordType>();
+        mediaPlayer=new MediaPlayer();
 
 
         wm.addView(myView, parameters);
@@ -173,18 +199,99 @@ public class FloatingNewVoiceRecorder extends Service {
         buttonPlay = (Button) view.findViewById(R.id.buttonPlay);
         buttonRecord = (Button) view.findViewById(R.id.buttonRecord);
         buttonSave = (Button) view.findViewById(R.id.buttonSave);
+        mSeekBar = (SeekBar) view.findViewById(R.id.seekbar);
+
+        mediaplayer_view = (CardView) view.findViewById(R.id.mediaplayer_view);
 
         textViewTitle = (TextView) view.findViewById(R.id.textViewTitle);
+        file_name_text_view = (TextView) view.findViewById(R.id.file_name_text_view);
+        fab_play = (FloatingActionButton) view.findViewById(R.id.fab_play);
 
         relativeLayoutRecording = (RelativeLayout) view.findViewById(R.id.relativeLayoutRecording);
         relativeLayoutListing = (RelativeLayout) view.findViewById(R.id.relativeLayoutListing);
         relativeLayoutListing.setVisibility(View.GONE);
 
         listViewRecordingListing = (ListView) view.findViewById(R.id.listViewRecordingListing);
+        buttonSave.setBackground(getResources().getDrawable(R.drawable.img_btn_forward));
+        mediaplayer_view.setVisibility(View.GONE);
+
+        ColorFilter filter = new LightingColorFilter
+                (getResources().getColor(R.color.primary), getResources().getColor(R.color.primary));
+        mSeekBar.getProgressDrawable().setColorFilter(filter);
+        mSeekBar.getThumb().setColorFilter(filter);
     }
 
     public void UIClickEvent()
     {
+        fab_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPlay(isPlaying);
+                isPlaying = !isPlaying;
+            }
+        });
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(mMediaPlayer != null && fromUser) {
+                    mMediaPlayer.seekTo(progress);
+                    mHandler.removeCallbacks(mRunnable);
+
+                    long minutes = TimeUnit.MILLISECONDS.toMinutes(mMediaPlayer.getCurrentPosition());
+                    long seconds = TimeUnit.MILLISECONDS.toSeconds(mMediaPlayer.getCurrentPosition())
+                            - TimeUnit.MINUTES.toSeconds(minutes);
+                    //mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes,seconds));
+
+                    updateSeekBar();
+
+                } else if (mMediaPlayer == null && fromUser) {
+                    //prepareMediaPlayerFromPoint(progress);
+                    updateSeekBar();
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                if(mMediaPlayer != null) {
+                    // remove message Handler from updating progress bar
+                    mHandler.removeCallbacks(mRunnable);
+                }
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (mMediaPlayer != null) {
+                    mHandler.removeCallbacks(mRunnable);
+                    mMediaPlayer.seekTo(seekBar.getProgress());
+
+                    long minutes = TimeUnit.MILLISECONDS.toMinutes(mMediaPlayer.getCurrentPosition());
+                    long seconds = TimeUnit.MILLISECONDS.toSeconds(mMediaPlayer.getCurrentPosition())
+                            - TimeUnit.MINUTES.toSeconds(minutes);
+                    //mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes,seconds));
+                    updateSeekBar();
+                }
+            }
+        });
+
+        listViewRecordingListing.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                fileName = mAdapter.getItem(i).getRecordName();
+                file = mAdapter.getItem(i).getRecordPath();
+                mediaplayer_view.setVisibility(View.VISIBLE);
+                file_name_text_view.setText(fileName);
+
+            }
+        });
+        textViewTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                relativeLayoutRecording.setVisibility(View.VISIBLE);
+                relativeLayoutListing.setVisibility(View.GONE);
+            }
+        });
+
         buttonRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -193,9 +300,13 @@ public class FloatingNewVoiceRecorder extends Service {
                     Toast.makeText(getApplicationContext(),"Start",Toast.LENGTH_LONG).show();
                     recordStatus = 1;
                     recorder.startRecording();
+                    buttonSave.setBackground(getResources().getDrawable(R.drawable.save_button));
+                    saveRecordStatus = 1;
                 }
                 else if(recordStatus == 1)
                 {
+                    buttonSave.setBackground(getResources().getDrawable(R.drawable.img_btn_forward));
+                    saveRecordStatus = 0;
                     Toast.makeText(getApplicationContext(),"Pause",Toast.LENGTH_LONG).show();
                     recordStatus = 2;
                     recorder.pauseRecording();
@@ -206,6 +317,8 @@ public class FloatingNewVoiceRecorder extends Service {
                     }, 100);
                 }
                 else if(recordStatus == 2) {
+                    saveRecordStatus = 1;
+                    buttonSave.setBackground(getResources().getDrawable(R.drawable.save_button));
                     Toast.makeText(getApplicationContext(),"Resume",Toast.LENGTH_LONG).show();
                     recordStatus = 1;
                     recorder.resumeRecording();
@@ -224,17 +337,131 @@ public class FloatingNewVoiceRecorder extends Service {
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recordStatus = 0;
-                Toast.makeText(getApplicationContext(),"Save",Toast.LENGTH_LONG).show();
-                recorder.stopRecording();
-                buttonRecord.post(new Runnable() {
-                    @Override public void run() {
-                        animateVoice(0);
-                    }
-                });
+                if(saveRecordStatus == 1)
+                {
+                    recordStatus = 0;
+                    Toast.makeText(getApplicationContext(),"Save",Toast.LENGTH_LONG).show();
+                    recorder.stopRecording();
+                    buttonRecord.post(new Runnable() {
+                        @Override public void run() {
+                            animateVoice(0);
+                        }
+                    });
+                }
+                else if(saveRecordStatus == 0)
+                {
+                    mediaplayer_view.setVisibility(View.GONE);
+                    relativeLayoutRecording.setVisibility(View.GONE);
+                    relativeLayoutListing.setVisibility(View.VISIBLE);
+                    getFile();
+                    mAdapter = new RecorderListAdapter(getApplicationContext(),mData);
+                    listViewRecordingListing.setAdapter(mAdapter);
+                }
+
             }
         });
 
+    }
+
+    private void updateSeekBar() {
+        mHandler.postDelayed(mRunnable, 1000);
+    }
+
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(mMediaPlayer != null){
+
+                int mCurrentPosition = mMediaPlayer.getCurrentPosition();
+                mSeekBar.setProgress(mCurrentPosition);
+
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition);
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
+                        - TimeUnit.MINUTES.toSeconds(minutes);
+               // mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes, seconds));
+
+                updateSeekBar();
+            }
+        }
+    };
+
+    private void onPlay(boolean isPlaying){
+        if (!isPlaying) {
+            //currently MediaPlayer is not playing audio
+            if(mMediaPlayer == null) {
+                startPlaying(file); //start from beginning
+            } else {
+                resumePlaying(); //resume the currently paused MediaPlayer
+            }
+
+        } else {
+            //pause the MediaPlayer
+            pausePlaying();
+        }
+    }
+
+    private void pausePlaying() {
+        fab_play.setImageResource(R.drawable.ic_media_play);
+        mHandler.removeCallbacks(mRunnable);
+        mMediaPlayer.pause();
+    }
+
+    private void resumePlaying() {
+        fab_play.setImageResource(R.drawable.ic_media_pause);
+        mHandler.removeCallbacks(mRunnable);
+        mMediaPlayer.start();
+        updateSeekBar();
+    }
+
+    private void stopPlaying() {
+        fab_play.setImageResource(R.drawable.ic_media_play);
+        mHandler.removeCallbacks(mRunnable);
+        mMediaPlayer.stop();
+        mMediaPlayer.reset();
+        mMediaPlayer.release();
+        mMediaPlayer = null;
+
+        mSeekBar.setProgress(mSeekBar.getMax());
+        isPlaying = !isPlaying;
+
+        //mCurrentProgressTextView.setText(mFileLengthTextView.getText());
+        mSeekBar.setProgress(mSeekBar.getMax());
+
+        //allow the screen to turn off again once audio is finished playing
+        //getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+
+    private void startPlaying(String file) {
+        fab_play.setImageResource(R.drawable.ic_media_pause);
+        mMediaPlayer = new MediaPlayer();
+
+        try {
+            mMediaPlayer.setDataSource(file);
+            mMediaPlayer.prepare();
+            mSeekBar.setMax(mMediaPlayer.getDuration());
+
+            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mMediaPlayer.start();
+                }
+            });
+        } catch (IOException e) {
+            //Log.e(LOG_TAG, "prepare() failed");
+        }
+
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                //stopPlaying();
+            }
+        });
+
+        updateSeekBar();
+
+        //keep screen on while playing audio
+        //((Activity) getApplicationContext()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     private void setupRecorder() {
@@ -276,41 +503,29 @@ public class FloatingNewVoiceRecorder extends Service {
         return stringBuilder.toString();
     }
 
-    public void openGalleryAudio(){
+   public void getFile()
+   {
+       String path = Environment.getExternalStorageDirectory().toString()+"/SoundRecorder";
+       Log.d("Files", "Path: " + path);
+       File directory = new File(path);
+       File[] files = directory.listFiles();
+       Log.d("Files", "Size: "+ files.length);
+       for (int i = 0; i < files.length; i++)
+       {
+           Log.d("Files", "FileName:" + files[i].getName());
+           RecordType recordType = new RecordType();
+           long createDate = files[i].lastModified();
+           //Date d = new Date(createDate);
+           SimpleDateFormat sdf5 = new SimpleDateFormat("dd/MM/yyyy");
+           String strdate5 = sdf5.format(createDate);
+           String fullPath = files[i].getPath();
+           recordType.setRecordName(files[i].getName());
+           recordType.setRecordPath(fullPath);
+           recordType.setRecordDate(strdate5);
 
-        Intent intent = new Intent();
-        intent.setType("audio/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        //startActivityForResult(Intent.createChooser(intent,"Select Audio "), SELECT_AUDIO);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == RESULT_OK) {
-
-            if (requestCode == SELECT_AUDIO)
-            {
-                System.out.println("SELECT_AUDIO");
-                Uri selectedImageUri = data.getData();
-                selectedPath = getPath(selectedImageUri);
-                System.out.println("SELECT_AUDIO Path : " + selectedPath);
-                //doFileUpload();
-            }
-
-        }
-    }
-
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-
-
-
+           mData.add(recordType);
+       }
+   }
     /*FileObserver observer =
             new FileObserver(android.os.Environment.getExternalStorageDirectory().toString()
                     + "/SoundRecorder") {

@@ -60,16 +60,23 @@ public class RecorderListAdapter extends BaseAdapter {
         viewHolder = new ViewHolder();
 
         viewHolder.textViewRecorderName = (TextView) view.findViewById(R.id.textViewRecorderName);
+        viewHolder.textViewRecorderDate = (TextView) view.findViewById(R.id.textViewRecorderDate);
 
         final RecordType data =(RecordType) mData.get(i);
         String recordName = data.getRecordName();
         if(recordName.length() != 0) {
             viewHolder.textViewRecorderName.setText(recordName);
         }
+
+        String recordDate = data.getRecordDate();
+        if(recordName.length() != 0) {
+            viewHolder.textViewRecorderDate.setText(recordDate);
+        }
+
         return view;
     }
 
     static class ViewHolder {
-        TextView textViewRecorderName;
+        TextView textViewRecorderName,textViewRecorderDate;
     }
 }

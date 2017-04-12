@@ -23,6 +23,7 @@
                 android:layout_alignParentRight="true"
                 android:src="@drawable/close"/>
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/buttonMenu"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
@@ -37,7 +38,7 @@
             <RelativeLayout
                 android:id="@+id/relativeLayoutRecording"
                 android:gravity="center"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:paddingBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -91,13 +92,14 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="visible"
                 android:id="@+id/relativeLayoutListing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="30dp"
                     android:paddingLeft="10dp"
                     android:id="@+id/relativeLayoutTop">
 
@@ -122,7 +124,88 @@
 
                 </RelativeLayout>
 
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/mediaplayer_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    card_view:cardElevation="3dp"
+                    android:visibility="gone"
+                    android:transitionName="open_mediaplayer"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="7dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/file_name_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="7dp"
+                            android:layout_marginBottom="7dp"
+                            android:text="file_name.mp4"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-condensed"/>
+
+                        <SeekBar
+                            android:id="@+id/seekbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <!-- <TextView
+                                 android:id="@+id/current_progress_text_view"
+                                 android:text="00:00"
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:layout_marginLeft="10dp"
+                                 android:layout_alignParentTop="true"
+                                 android:layout_alignParentLeft="true"
+                                 android:layout_alignParentStart="true" />-->
+
+                            <com.melnykov.fab.FloatingActionButton
+                                android:id="@+id/fab_play"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_media_play"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="5dp"
+                                android:layout_marginTop="5dp"
+                                app:fab_colorNormal="@color/primary"
+                                app:fab_colorPressed="@color/primary"
+                                app:fab_shadow="false"/>
+
+
+                            <!--<TextView
+                                android:id="@+id/file_length_text_view"
+                                android:text="00:00"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentEnd="true" />-->
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+
                 <ListView
+                    android:dividerHeight="2dp"
+                    android:divider="#bcbcbc"
                     android:layout_below="@+id/relativeLayoutTop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
