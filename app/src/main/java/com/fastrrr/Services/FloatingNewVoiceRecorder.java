@@ -75,11 +75,13 @@ public class FloatingNewVoiceRecorder extends Service{
     Random random ;
     MediaPlayer mediaPlayer;
     int recordStatus = 0;
+    int minute =0, seconds = 0, hour = 0;
     private TextView textViewTitle,file_name_text_view;
     private static final int SELECT_AUDIO = 2;
     String selectedPath = "";
     private SeekBar mSeekBar;
     private FloatingActionButton fab_play;
+    Timer t;
 
     private RecorderListAdapter mAdapter;
     private ArrayList<RecordType> mData;
@@ -94,6 +96,7 @@ public class FloatingNewVoiceRecorder extends Service{
     private Handler mHandler = new Handler();
     String file,fileName;
     private boolean isPlaying = false;
+    private TextView textViewTimer;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -201,6 +204,8 @@ public class FloatingNewVoiceRecorder extends Service{
         buttonSave = (Button) view.findViewById(R.id.buttonSave);
         mSeekBar = (SeekBar) view.findViewById(R.id.seekbar);
 
+        textViewTimer = (TextView) view.findViewById(R.id.textViewTimer);
+
         mediaplayer_view = (CardView) view.findViewById(R.id.mediaplayer_view);
 
         textViewTitle = (TextView) view.findViewById(R.id.textViewTitle);
@@ -298,6 +303,35 @@ public class FloatingNewVoiceRecorder extends Service{
 
                 if(recordStatus == 0) {
                     Toast.makeText(getApplicationContext(),"Start",Toast.LENGTH_LONG).show();
+                    t = new Timer("hello", true);
+                    t.schedule(new TimerTask() {
+
+                        @Override
+                        public void run() {
+                            //imageViewRecord.setImageDrawable(getResources().getDrawable(R.drawable.record2));
+                            textViewTimer.post(new Runnable() {
+
+                                public void run() {
+                                    seconds++;
+                                    if (seconds == 60) {
+                                        seconds = 0;
+                                        minute++;
+                                    }
+                                    if (minute == 60) {
+                                        minute = 0;
+                                        hour++;
+                                    }
+                                    textViewTimer.setText(""
+                                            + (hour > 9 ? hour : ("0" + hour)) + " : "
+                                            + (minute > 9 ? minute : ("0" + minute))
+                                            + " : "
+                                            + (seconds > 9 ? seconds : "0" + seconds));
+
+                                }
+                            });
+                        }
+                    }, 1000, 1000);
+
                     recordStatus = 1;
                     recorder.startRecording();
                     buttonSave.setBackground(getResources().getDrawable(R.drawable.save_button));
@@ -305,6 +339,9 @@ public class FloatingNewVoiceRecorder extends Service{
                 }
                 else if(recordStatus == 1)
                 {
+                    t.cancel();
+                    t.purge();
+
                     buttonSave.setBackground(getResources().getDrawable(R.drawable.img_btn_forward));
                     saveRecordStatus = 0;
                     Toast.makeText(getApplicationContext(),"Pause",Toast.LENGTH_LONG).show();
@@ -317,6 +354,33 @@ public class FloatingNewVoiceRecorder extends Service{
                     }, 100);
                 }
                 else if(recordStatus == 2) {
+                    t = new Timer("hello", true);
+                    t.schedule(new TimerTask() {
+
+                        @Override
+                        public void run() {
+                            //imageViewRecord.setImageDrawable(getResources().getDrawable(R.drawable.record2));
+                            textViewTimer.post(new Runnable() {
+
+                                public void run() {
+                                    seconds++;
+                                    if (seconds == 60) {
+                                        seconds = 0;
+                                        minute++;
+                                    }
+                                    if (minute == 60) {
+                                        minute = 0;
+                                        hour++;
+                                    }
+                                    textViewTimer.setText(""
+                                            + (hour > 9 ? hour : ("0" + hour)) + " : "
+                                            + (minute > 9 ? minute : ("0" + minute))
+                                            + " : "
+                                            + (seconds > 9 ? seconds : "0" + seconds));
+                                }
+                            });
+                        }
+                    }, 1000, 1000);
                     saveRecordStatus = 1;
                     buttonSave.setBackground(getResources().getDrawable(R.drawable.save_button));
                     Toast.makeText(getApplicationContext(),"Resume",Toast.LENGTH_LONG).show();
@@ -353,6 +417,7 @@ public class FloatingNewVoiceRecorder extends Service{
                     mediaplayer_view.setVisibility(View.GONE);
                     relativeLayoutRecording.setVisibility(View.GONE);
                     relativeLayoutListing.setVisibility(View.VISIBLE);
+                    mData.clear();
                     getFile();
                     mAdapter = new RecorderListAdapter(getApplicationContext(),mData);
                     listViewRecordingListing.setAdapter(mAdapter);
@@ -508,8 +573,12 @@ public class FloatingNewVoiceRecorder extends Service{
        String path = Environment.getExternalStorageDirectory().toString()+"/SoundRecorder";
        Log.d("Files", "Path: " + path);
        File directory = new File(path);
+
+       //String orderBy = MediaStore.Images.Thumbnails._ID + " DESC LIMIT 10";
+
        File[] files = directory.listFiles();
        Log.d("Files", "Size: "+ files.length);
+
        for (int i = 0; i < files.length; i++)
        {
            Log.d("Files", "FileName:" + files[i].getName());

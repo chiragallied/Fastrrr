@@ -13,10 +13,13 @@ import android.view.ViewGroup;
 import com.fastrrr.R;
 import com.fastrrr.Services.FloatingCalculator;
 import com.fastrrr.Services.FloatingContactList;
+import com.fastrrr.Services.FloatingDialer;
 import com.fastrrr.Services.FloatingGallery;
 import com.fastrrr.Services.FloatingMediaPlayer;
 import com.fastrrr.Services.FloatingMusicPlayer;
 import com.fastrrr.Services.FloatingNewVoiceRecorder;
+import com.fastrrr.Services.FloatingNotes;
+import com.fastrrr.Services.FloatingPDFViewer;
 import com.fastrrr.Services.FloatingStopWatch;
 import com.fastrrr.Services.FloatingTimer;
 import com.fastrrr.Services.FloatingVoiceRecorder;
@@ -33,7 +36,7 @@ public class ToolsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private CardView cardViewStopwatch,cardViewCalculator,cardViewMusic,cardViewTimer,cardViewVideo,cardViewVoiceRecord;
-    private CardView cardViewContacts,cardViewGallery;
+    private CardView cardViewContacts,cardViewGallery,cardViewPdfView,cardViewNotes,cardViewDialer;
 
     public void UIReference(View view)
     {
@@ -45,6 +48,9 @@ public class ToolsFragment extends Fragment {
         cardViewVoiceRecord= (CardView) view.findViewById(R.id.cardViewVoiceRecord);
         cardViewContacts= (CardView) view.findViewById(R.id.cardViewContacts);
         cardViewGallery= (CardView) view.findViewById(R.id.cardViewGallery);
+        cardViewPdfView= (CardView) view.findViewById(R.id.cardViewPdfView);
+        cardViewNotes= (CardView) view.findViewById(R.id.cardViewNotes);
+        cardViewDialer= (CardView) view.findViewById(R.id.cardViewDialer);
     }
     public void UIClick()
     {
@@ -96,6 +102,26 @@ public class ToolsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 //getActivity().startService(new Intent(getActivity(),FloatingGallery.class));
+            }
+        });
+
+        cardViewPdfView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().startService(new Intent(getActivity(),FloatingPDFViewer.class));
+            }
+        });
+        cardViewNotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().startService(new Intent(getActivity(),FloatingNotes.class));
+            }
+        });
+
+        cardViewDialer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().startService(new Intent(getActivity(),FloatingDialer.class));
             }
         });
     }

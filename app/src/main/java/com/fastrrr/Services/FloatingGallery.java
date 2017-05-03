@@ -102,32 +102,12 @@ public class FloatingGallery extends Service {
         });
 
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
-        buttonMenu= (ImageView) myView.findViewById(R.id.buttonMenu);
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
-            }
-        });
-        buttonMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Creating the instance of PopupMenu
-                PopupMenu popup = new PopupMenu(getApplicationContext(), buttonMenu);
-                //Inflating the Popup using xml file
-                popup.getMenuInflater()
-                        .inflate(R.menu.popup_menu, popup.getMenu());
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        return true;
-                    }
-                });
-
-                popup.show(); //showing popup menu
             }
         });
 

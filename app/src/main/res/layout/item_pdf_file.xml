@@ -10,19 +10,6 @@
         android:orientation="horizontal"
         android:layout_margin="5dp">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/imageViewUserImage"
-            android:visibility="visible"
-            android:src="@drawable/user"/>
-
-        <!--<QuickContactBadge
-            android:visibility="gone"
-            android:id="@+id/quickbadge"
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:scaleType="centerCrop"/>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textViewUserName"
+                android:id="@+id/textViewPDFFileName"
                 android:textColor="#000"
                 android:text="User name"
                 android:textSize="18dp" />
@@ -50,27 +37,7 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/dial"
-            android:id="@+id/imageViewCall"/>
 
-        <!--<LinearLayout
-            android:layout_weight="0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
-            android:gravity="center"
-            android:visibility="visible"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/check" />
-
-        </LinearLayout>-->
 
     </LinearLayout>
 

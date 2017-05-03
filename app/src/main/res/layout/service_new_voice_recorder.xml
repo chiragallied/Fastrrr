@@ -66,6 +66,7 @@
                         android:layout_height="25dp"
                         android:background="@drawable/play"
                         android:id="@+id/buttonPlay"
+                        android:visibility="gone"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="10dp"/>
 

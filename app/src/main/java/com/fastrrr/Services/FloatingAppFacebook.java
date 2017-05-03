@@ -32,6 +32,8 @@ public class FloatingAppFacebook extends Service {
     WebView web1;
     ImageView buttonClose;
     ProgressBar pbar;
+    View mView;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -49,11 +51,14 @@ public class FloatingAppFacebook extends Service {
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
         parameters.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         final View myView = inflater.inflate(R.layout.service_app_facebook, null);
+
+
         myView.setOnTouchListener(new View.OnTouchListener() {
             WindowManager.LayoutParams updatedParameters = parameters;
             double x;

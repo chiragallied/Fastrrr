@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="280dp"
+        android:background="@drawable/layout_border"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9">
+            <ImageView
+                android:id="@+id/buttonClose"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/close"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayoutMain">
+
+                <RelativeLayout
+                    android:id="@+id/layoutBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:padding="5dp">
+
+
+
+
+                    <!--<View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentTop="true"
+                        android:background="#999" />-->
+                </RelativeLayout>
+
+                <ListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/layoutBottom"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="5dp"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="10dp"
+                    android:listSelector="@android:color/transparent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No Notes"
+                    android:textColor="#000"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:id="@+id/textViewNoNotes"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom|right"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp">
+                    <ImageView
+                        android:id="@+id/imageViewAddNotes"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/float_plus"/>
+                </RelativeLayout>
+
+                <!--<android.support.design.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true">
+
+                    <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/fab"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="15dp"
+                        android:clickable="true"
+                        app:backgroundTint="#2E2E2E"
+                        android:src="@android:drawable/ic_input_add" />
+
+                </android.support.design.widget.CoordinatorLayout>-->
+
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/relativeLayoutAddNotes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:layout_marginTop="5dp"
+                    android:textColorHint="#bfbfbf"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Title"
+                    android:textColor="#000"
+                    android:id="@+id/editTextEnterTitle"/>
+
+                <EditText
+                    android:textColorHint="#bfbfbf"
+                    android:hint="Enter Notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/editTextEnterTitle"
+                    android:layout_marginTop="10dp"
+                    android:gravity="top"
+                    android:padding="5dp"
+                    android:textColor="#000"
+                    android:layout_above="@+id/relativeLayoutAdd"
+                    android:id="@+id/editTextEnterNote"/>
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutAdd"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true">
+                    <Button
+                        android:layout_margin="2dp"
+                        android:id="@+id/btnShare"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="Share"
+                        android:background="@drawable/add_button_background" />
+
+                    <Button
+                        android:layout_margin="2dp"
+                        android:id="@+id/btnList"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="List"
+                        android:layout_toRightOf="@+id/btnShare"
+                        android:background="@drawable/add_button_background" />
+
+                    <Button
+                        android:layout_margin="2dp"
+                        android:id="@+id/btnAdd"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:text="Add"
+                        android:layout_toRightOf="@+id/btnList"
+                        android:background="@drawable/add_button_background" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

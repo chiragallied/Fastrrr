@@ -41,6 +41,8 @@
             android:name="com.fastrrr.Activity.PrivacyPolicyActivity"
             android:label="@string/activity_title_privacy_policy" />
 
+        <activity android:name=".Activity.NotesActivity"></activity>
+
         <service android:name=".Services.FloatingWindow"></service>
         <service android:name=".Services.FloatingDialer"></service>
         <service android:name=".Services.FloatingStopWatch"></service>
@@ -62,6 +64,9 @@
         <service android:name=".Services.FloatingNewVoiceRecorder"></service>
         <service android:name=".Services.FloatingContactList"></service>
         <service android:name=".Services.FloatingGallery"></service>
+        <service android:name=".Services.FloatingPDFViewer"></service>
+        <service android:name=".Services.FloatingNotes"></service>
+        <service android:name=".Services.FloatingEditNotes"></service>
     </application>
 
 </manifest>
