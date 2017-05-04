@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,7 +122,7 @@ public class FloatingVoiceRecorder extends Service {
                 return false;
             }
         });
-
+        Constants.showNotification(FloatingVoiceRecorder.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         buttonMenu= (ImageView) myView.findViewById(R.id.buttonMenu);
         buttonClose.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +131,7 @@ public class FloatingVoiceRecorder extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
         buttonMenu.setOnClickListener(new View.OnClickListener() {

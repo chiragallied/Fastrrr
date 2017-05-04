@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 public class FloatingStopWatch extends Service {
 
@@ -79,7 +80,7 @@ public class FloatingStopWatch extends Service {
                 return false;
             }
         });
-
+        Constants.showNotification(FloatingStopWatch.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         textViewStopWatch= (TextView) myView.findViewById(R.id.textViewStopWatch);
         buttonStart= (Button) myView.findViewById(R.id.buttonStart);
@@ -92,6 +93,7 @@ public class FloatingStopWatch extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
         buttonStart.setOnClickListener(new View.OnClickListener() {

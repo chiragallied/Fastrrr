@@ -24,6 +24,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.widget.Toast;
 
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 import com.fastrrr.Singletone.SongsManager;
 import com.fastrrr.Singletone.Utilities;
 
@@ -117,6 +118,9 @@ public class FloatingMusicPlayer extends Service implements OnCompletionListener
                 return false;
             }
         });
+
+        Constants.showNotification(FloatingMusicPlayer.this,0);
+
         btnPlay = (ImageView) myView.findViewById(R.id.btnPlay);
         btnForward = (ImageView) myView.findViewById(R.id.btnForward);
         btnBackward = (ImageView)myView. findViewById(R.id.btnBackward);
@@ -153,6 +157,7 @@ public class FloatingMusicPlayer extends Service implements OnCompletionListener
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
 

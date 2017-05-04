@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 public class FloatingWindow extends Service {
 
@@ -91,7 +92,7 @@ public class FloatingWindow extends Service {
         });
         */
 
-
+        Constants.showNotification(FloatingWindow.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         web1 = (WebView)myView.findViewById(R.id.webView1);
         ed1 = (EditText)myView.findViewById(R.id.editText1);
@@ -119,6 +120,7 @@ public class FloatingWindow extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
 

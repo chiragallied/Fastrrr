@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 
 import com.fastrrr.Adapter.ContactUserAdapter;
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 import com.fastrrr.Type.UserType;
 
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class FloatingContactList extends Service {
             }
         });
 
-
+        Constants.showNotification(FloatingContactList.this,0);
 
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         //buttonMenu= (ImageView) myView.findViewById(R.id.buttonMenu);
@@ -101,6 +102,7 @@ public class FloatingContactList extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
         /*buttonMenu.setOnClickListener(new View.OnClickListener() {

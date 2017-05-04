@@ -25,7 +25,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.1">
+            android:layout_weight="0.1"
+            android:padding="10dp">
 
             <WebView
                 android:id="@+id/webView1"

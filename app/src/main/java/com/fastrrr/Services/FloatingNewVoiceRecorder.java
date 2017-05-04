@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.fastrrr.Adapter.RecorderListAdapter;
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 import com.fastrrr.Type.RecordType;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -150,7 +151,7 @@ public class FloatingNewVoiceRecorder extends Service{
                 return false;
             }
         });
-
+        Constants.showNotification(FloatingNewVoiceRecorder.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         buttonMenu= (ImageView) myView.findViewById(R.id.buttonMenu);
         buttonClose.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +160,7 @@ public class FloatingNewVoiceRecorder extends Service{
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
         buttonMenu.setOnClickListener(new View.OnClickListener() {

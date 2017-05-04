@@ -14,6 +14,7 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 public class FloatingAppInsta extends Service {
 
@@ -74,7 +75,7 @@ public class FloatingAppInsta extends Service {
                 return false;
             }
         });
-
+        Constants.showNotification(FloatingAppInsta.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         web1 = (WebView)myView.findViewById(R.id.webView1);
         pbar = (ProgressBar)myView.findViewById(R.id.progressBar1);
@@ -94,6 +95,7 @@ public class FloatingAppInsta extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
 

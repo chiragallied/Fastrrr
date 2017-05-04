@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 
 import com.fastrrr.Adapter.PDFFileAdapter;
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -105,6 +107,8 @@ public class FloatingPDFViewer extends Service {
         UIReference(myView);
         UIClick();
 
+        Constants.showNotification(FloatingPDFViewer.this,0);
+
         getPDFFile(Environment.getExternalStorageDirectory());
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +116,7 @@ public class FloatingPDFViewer extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
 
@@ -152,16 +157,52 @@ public class FloatingPDFViewer extends Service {
                 String Name = String.valueOf(filePath);
                 Name = Name.substring(Name.lastIndexOf("/")+1);
                 //webview = (WebView) findViewById(R.id.webview);
-                WebSettings settings = webViewPdfReader.getSettings();
+               /* WebSettings settings = webViewPdfReader.getSettings();
                 settings.setJavaScriptEnabled(true);
                 settings.setAllowFileAccessFromFileURLs(true);
                 settings.setAllowUniversalAccessFromFileURLs(true);
                 settings.setBuiltInZoomControls(true);
                 webViewPdfReader.setWebChromeClient(new WebChromeClient());
-                webViewPdfReader.loadUrl(Name);
+                webViewPdfReader.loadUrl(Name);*/
+
+                webViewPdfReader.getSettings().setJavaScriptEnabled(true);
+                webViewPdfReader.getSettings().setPluginState(WebSettings.PluginState.ON);
+                webViewPdfReader.getSettings().setBuiltInZoomControls(true);
+                webViewPdfReader.getSettings().setAllowFileAccess(true);
+                webViewPdfReader.getSettings().setUseWideViewPort(true);
+                webViewPdfReader.setWebViewClient(new AppWebViewClients());
+
+                //webview.getSettings().setJavaScriptEnabled(true);
+                webViewPdfReader.setContentDescription("application/pdf");
+                //webview.loadUrl(path);
+
+                //webViewSoilReport.loadUrl("http://docs.google.com/gview?embedded=true&url=";
+
+                String pdfURL = "http://alliedinfosoftdemo.com/myagriguru/admin/uploads/soilreport/584533eec088dsoilreport.pdf";
+                //String file = "http://www.imdagrimet.gov.in/advisory?state=" + StateName+"&district="+DisctrictName+"&language=Local";
+                //String myScript="http://docs.google.com/gview?embedded=true&url="+Name+"";
+                String myScript= String.valueOf(filePath);
+                webViewPdfReader.loadData(myScript, "text/html", "UTF-8");
+                webViewPdfReader.loadUrl(myScript);
 
             }
         });
+    }
+
+    public class AppWebViewClients extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // TODO Auto-generated method stub
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url);
+
+        }
     }
 
     public void getPDFFile(File dir)

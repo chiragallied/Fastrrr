@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 public class FloatingAppWikipedia extends Service {
 
@@ -80,7 +81,7 @@ public class FloatingAppWikipedia extends Service {
                 return false;
             }
         });
-
+        Constants.showNotification(FloatingAppWikipedia.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         web1 = (WebView)myView.findViewById(R.id.webView1);
         ed1 = (EditText)myView.findViewById(R.id.editText1);
@@ -108,6 +109,7 @@ public class FloatingAppWikipedia extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
 

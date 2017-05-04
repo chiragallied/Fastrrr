@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 public class FloatingAppYoutube extends Service {
 
@@ -75,7 +76,7 @@ public class FloatingAppYoutube extends Service {
                 return false;
             }
         });
-
+        Constants.showNotification(FloatingAppYoutube.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         web1 = (WebView)myView.findViewById(R.id.webView1);
         pbar = (ProgressBar)myView.findViewById(R.id.progressBar1);
@@ -95,6 +96,7 @@ public class FloatingAppYoutube extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
 

@@ -18,6 +18,7 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 public class FloatingBookmark extends Service {
 
@@ -77,7 +78,7 @@ public class FloatingBookmark extends Service {
                 return false;
             }
         });
-
+        Constants.showNotification(FloatingBookmark.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         buttonMenu= (ImageView) myView.findViewById(R.id.buttonMenu);
         buttonClose.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +87,7 @@ public class FloatingBookmark extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
         buttonMenu.setOnClickListener(new View.OnClickListener() {

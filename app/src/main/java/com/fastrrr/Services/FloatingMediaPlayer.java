@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 import com.github.rtoshiro.view.video.FullscreenVideoLayout;
 
 import java.io.IOException;
@@ -101,7 +102,7 @@ public class FloatingMediaPlayer extends Service {
                 return false;
             }
         });
-
+        Constants.showNotification(FloatingMediaPlayer.this,0);
         UIReference(myView);
         UIClickEvent();
         init_phone_video_grid();
@@ -113,6 +114,7 @@ public class FloatingMediaPlayer extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
         buttonMenu.setOnClickListener(new View.OnClickListener() {

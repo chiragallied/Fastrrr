@@ -23,6 +23,7 @@ import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class FloatingGallery extends Service {
                 return false;
             }
         });
-
+        Constants.showNotification(FloatingGallery.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +109,7 @@ public class FloatingGallery extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
 

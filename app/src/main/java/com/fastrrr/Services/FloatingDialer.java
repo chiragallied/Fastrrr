@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.fastrrr.Adapter.ContactUserAdapter;
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 import com.fastrrr.Type.UserType;
 
 import java.util.ArrayList;
@@ -108,6 +109,7 @@ public class FloatingDialer extends Service {
                 return false;
             }
         });
+        Constants.showNotification(FloatingDialer.this,0);
 
         UIReference(myView);
         UIClickEvent();
@@ -145,6 +147,7 @@ public class FloatingDialer extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
         buttonClickEvent(myView);

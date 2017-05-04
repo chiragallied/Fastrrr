@@ -29,6 +29,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.MyTest">
+
+        </activity>
         <activity
             android:name="com.fastrrr.Activity.MainActivity"
             android:label="@string/app_name"

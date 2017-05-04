@@ -13,6 +13,8 @@ import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.MotionEventCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +57,7 @@ public class FloatingAppFacebook extends Service {
                         |WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT);
         parameters.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
+        parameters.gravity = Gravity.TOP | Gravity.LEFT;
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         final View myView = inflater.inflate(R.layout.service_app_facebook, null);
 
@@ -86,6 +89,7 @@ public class FloatingAppFacebook extends Service {
 
                     default:
                         break;
+
                 }
                 return false;
             }

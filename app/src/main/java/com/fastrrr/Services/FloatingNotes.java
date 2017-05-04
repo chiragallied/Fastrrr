@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.fastrrr.Activity.NotesActivity;
 import com.fastrrr.Adapter.PDFFileAdapter;
 import com.fastrrr.R;
+import com.fastrrr.Singletone.Constants;
 import com.fastrrr.Singletone.DatabaseAccess;
 import com.fastrrr.Type.Memo;
 import android.support.design.widget.FloatingActionButton;
@@ -124,6 +125,7 @@ public class FloatingNotes extends Service {
                 return false;
             }
         });
+        Constants.showNotification(FloatingNotes.this,0);
         buttonClose= (ImageView)myView.findViewById(R.id.buttonClose);
 
 
@@ -152,6 +154,7 @@ public class FloatingNotes extends Service {
                 wm.removeView(myView);
                 stopSelf();
                 //System.exit(0);
+                Constants.mNotificationManager.cancel(0);
             }
         });
         wm.addView(myView, parameters);
