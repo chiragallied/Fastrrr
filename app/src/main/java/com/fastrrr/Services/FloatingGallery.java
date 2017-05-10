@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -116,6 +117,7 @@ public class FloatingGallery extends Service {
         UIReference(myView);
         UIClickEvent();
         getImageList();
+        //getAllphotos(Environment.getExternalStorageDirectory()));
 
         wm.addView(myView, parameters);
     }
@@ -134,6 +136,20 @@ public class FloatingGallery extends Service {
     {
 
     }
+
+    public ArrayList<File> getAllphotos(String path){
+        ArrayList<File> photoPath = new ArrayList<>();
+        File yourDir = new File(path);
+        for (File f : yourDir.listFiles()) {
+            String mas[] = f.toString().split("\\.");
+            if(mas[mas.length - 1].equalsIgnoreCase("png") || mas[mas.length - 1].equalsIgnoreCase("jpeg")){//or other formats
+                //it is picture
+                photoPath.add(f);
+            }
+        }
+        return photoPath;
+    }
+
 
     public void getImageList()
     {
