@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.fastrrr.R;
 import com.fastrrr.Services.FloatingCalculator;
+import com.fastrrr.Services.FloatingCamera;
 import com.fastrrr.Services.FloatingContactList;
 import com.fastrrr.Services.FloatingDialer;
 import com.fastrrr.Services.FloatingGallery;
@@ -36,7 +37,7 @@ public class ToolsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private CardView cardViewStopwatch,cardViewCalculator,cardViewMusic,cardViewTimer,cardViewVideo,cardViewVoiceRecord;
-    private CardView cardViewContacts,cardViewGallery,cardViewPdfView,cardViewNotes,cardViewDialer;
+    private CardView cardViewContacts,cardViewGallery,cardViewPdfView,cardViewNotes,cardViewDialer,cardViewCameraRecord;
 
     public void UIReference(View view)
     {
@@ -51,6 +52,7 @@ public class ToolsFragment extends Fragment {
         cardViewPdfView= (CardView) view.findViewById(R.id.cardViewPdfView);
         cardViewNotes= (CardView) view.findViewById(R.id.cardViewNotes);
         cardViewDialer= (CardView) view.findViewById(R.id.cardViewDialer);
+        cardViewCameraRecord= (CardView) view.findViewById(R.id.cardViewCameraRecord);
     }
     public void UIClick()
     {
@@ -122,6 +124,12 @@ public class ToolsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().startService(new Intent(getActivity(),FloatingDialer.class));
+            }
+        });
+        cardViewCameraRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().startService(new Intent(getActivity(),FloatingCamera.class));
             }
         });
     }

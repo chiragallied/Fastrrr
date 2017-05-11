@@ -25,7 +25,22 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.1">
+            android:layout_weight="0.1"
+            android:background="#bcbcbc"
+            android:orientation="vertical">
+
+            <SurfaceView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/surfaceViewCapture" />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="0.8"
+                android:id="@+id/capture"/>
 
         </RelativeLayout>
 
