@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -24,12 +25,18 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.fastrrr.R;
 import com.fastrrr.Singletone.Constants;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FloatingCamera extends Service implements SurfaceHolder.Callback{
 
@@ -114,7 +121,7 @@ public class FloatingCamera extends Service implements SurfaceHolder.Callback{
 
         UIReference(myView);
         UIClickEvent();
-        start_camera();
+        //camera = Camera.open();
 
         wm.addView(myView, parameters);
     }
@@ -136,17 +143,113 @@ public class FloatingCamera extends Service implements SurfaceHolder.Callback{
         rawCallback = new Camera.PictureCallback() {
             public void onPictureTaken(byte[] data, Camera camera) {
                 Log.d("Log", "onPictureTaken - raw");
+
+
+            }
+        };
+
+        jpegCallback = new Camera.PictureCallback() {
+            public void onPictureTaken(byte[] data, Camera camera) {
+                /*FileOutputStream outStream = null;
+                try {
+                    outStream = new FileOutputStream(String.format("/sdcard/%d.jpg", System.currentTimeMillis()));
+                    outStream.write(data);
+                    outStream.close();
+                    Log.d("Log", "onPictureTaken - wrote bytes: " + data.length);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                }*/
+                /*FileOutputStream outStream = null;
+                try {
+                    outStream = new FileOutputStream(String.format(
+                            "/sdcard/%d.jpg", System.currentTimeMillis()));
+                    outStream.write(data);
+                    outStream.close();
+                    Log.d("Log", "onPictureTaken - wrote bytes: " + data.length);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                }
+                Log.d("Log", "onPictureTaken - jpeg");*/
+                File pictureFile = getOutputMediaFile();
+                if (pictureFile == null) {
+                    return;
+                }
+                try {
+                    FileOutputStream fos = new FileOutputStream(pictureFile);
+                    fos.write(data);
+                    fos.close();
+                } catch (FileNotFoundException e) {
+
+                } catch (IOException e) {
+                }
+                Toast.makeText(getApplicationContext(), "Picture Saved", Toast.LENGTH_LONG).show();
+                refreshCamera();
+            }
+        };
+
+        shutterCallback = new Camera.ShutterCallback() {
+            public void onShutter() {
+                Log.i("Log", "onShutter'd");
             }
         };
 
     }
+
+    private static File getOutputMediaFile() {
+        File mediaStorageDir = new File(
+                Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                "MyCameraApp");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator
+                + "IMG_" + timeStamp + ".jpg");
+
+        return mediaFile;
+    }
+
+    public void refreshCamera() {
+        if (surfaceHolder.getSurface() == null) {
+            // preview surface does not exist
+            return;
+        }
+        // stop preview before making changes
+        try {
+            camera.stopPreview();
+        } catch (Exception e) {
+            // ignore: tried to stop a non-existent preview
+        }
+        // set preview size and make any resize, rotate or
+        // reformatting changes here
+        // start preview with new settings
+        try {
+            camera.setPreviewDisplay(surfaceHolder);
+            camera.startPreview();
+        } catch (Exception e) {
+        }
+    }
+
 
     public void UIClickEvent()
     {
         capture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                start_camera();
+                captureImage();
             }
         });
     }
@@ -183,16 +286,39 @@ public class FloatingCamera extends Service implements SurfaceHolder.Callback{
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-
+        try{
+            camera = Camera.open();
+        }catch(RuntimeException e){
+            Log.e(tag, "init_camera: " + e);
+            return;
+        }
+        Camera.Parameters param;
+        param = camera.getParameters();
+        //modify parameter
+        param.setPreviewFrameRate(20);
+        param.setPreviewSize(176, 144);
+        camera.setParameters(param);
+        try {
+            camera.setPreviewDisplay(surfaceHolder);
+            camera.startPreview();
+            //camera.takePicture(shutter, raw, jpeg)
+        } catch (Exception e) {
+            Log.e(tag, "init_camera: " + e);
+            return;
+        }
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+        refreshCamera();
 
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        camera.stopPreview();
+        camera.release();
+        camera = null;
 
     }
 }
